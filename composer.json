@@ -1,0 +1,12 @@
+{
+    "name": "bruno-barros/w.eloquent-framework",
+    "description": "w.eloquent core",
+    "authors": [
+        {
+            "name": "Bruno Barros",
+            "email": "brunodanca@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
