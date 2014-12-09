@@ -1,12 +1,25 @@
 {
-    "name": "bruno-barros/w.eloquent-framework",
-    "description": "w.eloquent core",
-    "authors": [
-        {
-            "name": "Bruno Barros",
-            "email": "brunodanca@gmail.com"
-        }
-    ],
-    "minimum-stability": "dev",
-    "require": {}
+	"name": "bruno-barros/w.eloquent-framework",
+	"description": "w.eloquent core",
+	"keywords": [
+		"Laravel",
+		"framework",
+		"WordPress"
+	],
+	"license": "GPL-2.0+",
+	"authors": [
+		{
+			"name": "Bruno Barros",
+			"email": "brunodanca@gmail.com"
+		}
+	],
+	"type": "project",
+	"require": {},
+	"config": {
+		"preferred-install": "dist",
+		"optimize-autoloader": true
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true
+
 }
