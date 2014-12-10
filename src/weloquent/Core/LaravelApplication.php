@@ -56,7 +56,7 @@ $app['env'] = $env;
 | may do so within the paths.php file and they will be bound here.
 |
 */
-$app->bindInstallPaths(require SRC_PATH.'/framework/bootstrap/paths.php');
+$app->bindInstallPaths(require SRC_PATH.'/bootstrap/paths.php');
 
 
 /*
