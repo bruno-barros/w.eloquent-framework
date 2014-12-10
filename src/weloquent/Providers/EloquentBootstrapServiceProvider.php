@@ -25,7 +25,10 @@ class EloquentBootstrapServiceProvider extends ServiceProvider{
 			'prefix'    => $GLOBALS['table_prefix']
 		);
 
-		Database::connect($params);
+		if(class_exists('Corcel\Database'))
+		{
+			Database::connect($params);
+		}
 
 	}
 }
