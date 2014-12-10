@@ -42,7 +42,7 @@ class BladePlugin
 	{
 
 		$this->app   = App::getFacadeApplication();
-		$this->paths = require SRC_PATH . '/framework/bootstrap/paths.php';
+		$this->paths = require SRC_PATH . '/bootstrap/paths.php';
 
 		// Bind to template include action
 //		add_action('template_redirect', array($this, 'redirect'));
