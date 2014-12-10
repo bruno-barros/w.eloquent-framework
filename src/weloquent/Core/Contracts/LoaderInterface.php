@@ -1,4 +1,4 @@
-<?php namespace Framework\Core\Contracts;
+<?php namespace Weloquent\Core\Contracts;
 
 /**
  * LoaderInterface
