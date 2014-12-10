@@ -22,8 +22,7 @@ class RouteServiceProvider extends ServiceProvider{
 
 			$this->app->bindShared('weloquent.route', function($app)
 			{
-				$container = Container::instance();
-				return $container->get('cortex.api');
+				return Container::instance()->get('cortex.api');
 			});
 
 	}

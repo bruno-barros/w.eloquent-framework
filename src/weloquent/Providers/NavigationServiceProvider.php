@@ -1,6 +1,6 @@
 <?php  namespace Weloquent\Providers;
 
-use Framework\Support\Navigation\Menu;
+use Weloquent\Support\Navigation\Menu;
 use Illuminate\Support\ServiceProvider;
 
 /**
