@@ -1,7 +1,7 @@
-<?php  namespace Framework\Support\Navigation;
+<?php  namespace Weloquent\Support\Navigation;
 
-use Framework\Core\Application;
-use Framework\Support\Navigation\Contracts\MenuInterface;
+use Weloquent\Core\Application;
+use Weloquent\Support\Navigation\Contracts\MenuInterface;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 /**

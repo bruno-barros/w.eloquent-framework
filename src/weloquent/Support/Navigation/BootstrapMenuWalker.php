@@ -1,4 +1,4 @@
-<?php  namespace Framework\Support\Navigation;
+<?php  namespace Weloquent\Support\Navigation;
 
 
 /**

@@ -1,4 +1,4 @@
-<?php namespace Framework\Support\Navigation\Contracts;
+<?php namespace Weloquent\Support\Navigation\Contracts;
 
 /**
  * Menu
