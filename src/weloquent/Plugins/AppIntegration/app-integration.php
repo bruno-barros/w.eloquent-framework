@@ -23,7 +23,7 @@
 	 */
 
 // If this file is called directly, abort.
-use Framework\Plugins\AppIntegration\Includes\AppIntegration;
+use Weloquent\Plugins\AppIntegration\Includes\AppIntegration;
 use Illuminate\Support\Facades\App;
 
 if (!defined('WPINC'))
