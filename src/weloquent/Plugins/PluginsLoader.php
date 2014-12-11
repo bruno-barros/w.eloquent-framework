@@ -34,7 +34,6 @@ class PluginsLoader
 	 */
 	public static function bootRequired()
 	{
-
 		foreach (self::$required as $plugin)
 		{
 			require_once __DIR__ . DS . $plugin;

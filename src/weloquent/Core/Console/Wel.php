@@ -1,6 +1,6 @@
-<?php namespace Framework\Core\Console;
+<?php namespace Weloquent\Core\Console;
 
-use Framework\Core\Console\WelConsole as ConsoleApplication;
+use Weloquent\Core\Console\WelConsole as ConsoleApplication;
 use Illuminate\Foundation\Application;
 
 class Wel{
@@ -23,7 +23,7 @@ class Wel{
 	 * Create a new Artisan command runner instance.
 	 *
 	 * @param  \Illuminate\Foundation\Application $app
-	 * @return \Framework\Core\Console\Wel
+	 * @return \Weloquent\Core\Console\Wel
 	 */
 	public function __construct(Application $app)
 	{

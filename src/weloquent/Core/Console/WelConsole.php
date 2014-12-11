@@ -1,4 +1,4 @@
-<?php  namespace Framework\Core\Console;
+<?php  namespace Weloquent\Core\Console;
 
 use Illuminate\Console\Application;
 
@@ -14,7 +14,7 @@ class WelConsole extends Application{
 	/**
 	 * Create a new Console application.
 	 *
-	 * @param  \Framework\Core\Application $app
+	 * @param  \Weloquent\Core\Application $app
 	 * @return \Illuminate\Console\Application
 	 */
 	public static function make($app)

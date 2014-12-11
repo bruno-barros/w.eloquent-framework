@@ -222,3 +222,11 @@ Request::enableHttpMethodParameterOverride();
 $providers = $config['providers'];
 
 $app->getProviderRepository()->load($app, $providers);
+
+
+$app->booted(function() use ($app, $env)
+{
+
+});
+
+return $app;

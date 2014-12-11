@@ -1,4 +1,4 @@
-<?php namespace Framework\Core\Console;
+<?php namespace Weloquent\Core\Console;
 
 use Illuminate\Console\Command;
 
