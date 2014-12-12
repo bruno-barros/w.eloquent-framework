@@ -18,6 +18,12 @@ class Environment
 	protected $locations = array();
 
 	/**
+	 * If is testing environment
+	 * @var bool
+	 */
+	protected $isTesting = false;
+
+	/**
 	 * Init the Environment class.
 	 * 
 	 * @param string $path The root path where environments files are located.
@@ -36,6 +42,12 @@ class Environment
 	 */
 	public function which()
 	{
+		if($this->isTesting())
+		{
+			$this->isTesting = true;
+			return 'testing';
+		}
+
 		if(file_exists($this->path.'.env.local.php'))
 		{
 			return 'local';
@@ -52,6 +64,11 @@ class Environment
 	 */
 	public function load($location)
 	{
+		if($this->isTesting())
+		{
+			$location = 'local';
+		}
+
 		if (file_exists($path = $this->getFile($location)))
 		{
             return require_once($path);
@@ -108,5 +125,21 @@ class Environment
 	protected function getFile($location)
 	{
 		return $this->path.'.env.'.$location.'.php';
+	}
+
+
+	/**
+	 * Check for testing environment flag
+	 *
+	 * @return bool
+	 */
+	public function isTesting()
+	{
+		if(defined('THEME_TEST_ENV'))
+		{
+			return true;
+		}
+
+		return false;
 	}
 }
