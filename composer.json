@@ -24,7 +24,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Weloquent\\Tests\\": "tests/"
+      "Weloquent\\Tests\\": "src/tests/"
     }
   },
   "require": {
