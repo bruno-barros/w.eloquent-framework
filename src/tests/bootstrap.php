@@ -1,7 +1,7 @@
 <?php
 if (!defined('ROOT_PATH'))
 {
-	define('ROOT_PATH', dirname(dirname(dirname(dirname(dirname(__FILE__))))));
+	define('ROOT_PATH', dirname(dirname(dirname(dirname(dirname(dirname(__FILE__)))))));
 }
 
 define('IS_TEST', true);
