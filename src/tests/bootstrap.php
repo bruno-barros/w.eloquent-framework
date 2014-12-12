@@ -4,6 +4,8 @@ if (!defined('ROOT_PATH'))
 	define('ROOT_PATH', dirname(dirname(dirname(dirname(dirname(dirname(__FILE__)))))));
 }
 
+defined('DS') ? DS : define('DS', DIRECTORY_SEPARATOR);
+
 define('IS_TEST', true);
 
 $autoload = require_once ROOT_PATH . '/src/bootstrap/start.php';
