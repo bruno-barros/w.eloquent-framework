@@ -1,48 +1,56 @@
 {
-	"name": "bruno-barros/w.eloquent-framework",
-	"description": "w.eloquent core",
-	"keywords": [
-		"Laravel",
-		"framework",
-		"WordPress"
-	],
-	"license": "GPL-2.0+",
-	"authors": [
-		{
-			"name": "Bruno Barros",
-			"email": "brunodanca@gmail.com"
-		}
-	],
-	"type": "project",
-	"autoload": {
-		"files": [
-			"src/weloquent/Support/helpers.php"
-		],
-		"psr-4": {
-			"Weloquent\\": "src/weloquent"
-		}
-	},
-	"require": {
-		"php": ">=5.4",
-		"composer/installers": "~1.0",
-		"johnpbloch/wordpress": ">=4.0",
-		"laravel/framework": "4.2.*",
-		"brain/brain": "dev-master",
-		"brain/support": "dev-master",
-		"brain/amygdala": "dev-master",
-		"brain/striatum": "dev-master",
-		"brain/occipital": "dev-master",
-		"brain/cortex": "dev-master",
-		"symfony/routing": "2.*"
-	},
-	"config": {
-		"preferred-install": "dist",
-		"optimize-autoloader": true
-	},
-	"extra": {
-
-	},
-	"minimum-stability": "dev",
-	"prefer-stable": true
-
+  "name": "bruno-barros/w.eloquent-framework",
+  "description": "w.eloquent core",
+  "keywords": [
+    "Laravel",
+    "framework",
+    "WordPress"
+  ],
+  "license": "GPL-2.0+",
+  "authors": [
+    {
+      "name": "Bruno Barros",
+      "email": "brunodanca@gmail.com"
+    }
+  ],
+  "type": "project",
+  "autoload": {
+    "files": [
+      "src/weloquent/Support/helpers.php"
+    ],
+    "psr-4": {
+      "Weloquent\\": "src/weloquent"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Weloquent\\Tests\\": "tests/"
+    }
+  },
+  "require": {
+    "php": ">=5.4",
+    "composer/installers": "~1.0",
+    "johnpbloch/wordpress": ">=4.0",
+    "laravel/framework": "4.2.*",
+    "brain/brain": "dev-master",
+    "brain/support": "dev-master",
+    "brain/amygdala": "dev-master",
+    "brain/striatum": "dev-master",
+    "brain/occipital": "dev-master",
+    "brain/cortex": "dev-master",
+    "symfony/routing": "2.*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "3.7.*",
+    "mockery/mockery": "dev-master",
+    "10up/wp_mock": "dev-master"
+  },
+  "config": {
+    "preferred-install": "dist",
+    "optimize-autoloader": true
+  },
+  "extra": {
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }
