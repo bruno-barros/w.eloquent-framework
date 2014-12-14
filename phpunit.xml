@@ -1,4 +1,4 @@
-<phpunit bootstrap="bootstrap.php"
+<phpunit bootstrap="src/tests/bootstrap.php"
          colors="false"
          convertErrorsToExcetions="true"
          convertNoticesToExceptions="true"
@@ -8,11 +8,9 @@
         <listener class="\Mockery\Adapter\Phpunit\TestListener"></listener>
     </listeners>
     <testsuites>
-        <testsuite name="U">
-            <directory>Unit</directory>
+        <testsuite name="Unit">
+            <directory>./src/tests/Unit</directory>
         </testsuite>
-        <testsuite name="F">
-            <directory>Functional</directory>
-        </testsuite>
+
     </testsuites>
 </phpunit>
