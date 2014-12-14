@@ -135,7 +135,7 @@ class Environment
 	 */
 	public function isTesting()
 	{
-		if(defined('THEME_TEST_ENV'))
+		if(defined('WELOQUENT_TEST_ENV'))
 		{
 			return true;
 		}
