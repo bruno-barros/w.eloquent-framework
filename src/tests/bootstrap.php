@@ -6,7 +6,7 @@ if (!defined('ROOT_PATH'))
 
 defined('DS') ? DS : define('DS', DIRECTORY_SEPARATOR);
 
-define('IS_TEST', true);
+define('WELOQUENT_TEST_ENV', true);
 
 $autoload = require_once ROOT_PATH . '/src/bootstrap/start.php';
 
