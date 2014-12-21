@@ -1,4 +1,4 @@
-<?php  namespace Weloquent\Plugins;
+<?php namespace Weloquent\Plugins;
 
 use Symfony\Component\Security\Core\Exception\InvalidArgumentException;
 
@@ -44,6 +44,12 @@ class PluginsLoader
 	 */
 	public static function bootRequired()
 	{
+		// on test do not load plugins
+		if(self::isTestingEnv())
+		{
+			return;
+		}
+
 		foreach (self::$required as $plugin)
 		{
 			require_once __DIR__ . DS . $plugin;
@@ -58,6 +64,11 @@ class PluginsLoader
 	 */
 	public static function loadFromPath($path)
 	{
+		// on test do not load plugins
+		if(self::isTestingEnv())
+		{
+			return;
+		}
 
 		if (!file_exists($path))
 		{
@@ -66,12 +77,11 @@ class PluginsLoader
 
 		$plugins = require $path;
 
-
 		foreach ($plugins as $plugin)
 		{
-			if(array_key_exists($plugin, self::$lookup))
+			if (array_key_exists($plugin, self::$lookup))
 			{
-				$plugin = __DIR__ .DS. self::$lookup[$plugin];
+				$plugin = __DIR__ . DS . self::$lookup[$plugin];
 			}
 
 			if (file_exists($plugin))
@@ -80,6 +90,21 @@ class PluginsLoader
 			}
 		}
 
+	}
+
+	/**
+	 * Check if is on test
+	 *
+	 * @return bool
+	 */
+	private static function isTestingEnv()
+	{
+		if (defined('WELOQUENT_TEST_ENV'))
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 } 

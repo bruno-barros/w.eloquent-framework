@@ -72,7 +72,6 @@ class AppIntegrationAdmin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/app-integration-admin.css', array(), $this->version, 'all' );
 
 	}

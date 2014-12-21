@@ -81,7 +81,7 @@ class AppIntegration
 	{
 		$this->plugin_name = 'weloquent';
 		$this->version     = '1.0.0';
-		$this->app = $app;
+		$this->app         = $app;
 
 		$this->loadDependencies();
 		$this->setLocale();
@@ -90,7 +90,7 @@ class AppIntegration
 		{
 			$this->defineAdminHooks();
 		}
-	else
+		else
 		{
 			$this->definePublicHooks();
 		}
