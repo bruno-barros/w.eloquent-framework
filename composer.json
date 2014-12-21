@@ -30,7 +30,6 @@
   "require": {
     "php": ">=5.4",
     "composer/installers": "~1.0",
-    "johnpbloch/wordpress": ">=4.0",
     "laravel/framework": "4.2.*",
     "brain/brain": "dev-master",
     "brain/support": "dev-master",
