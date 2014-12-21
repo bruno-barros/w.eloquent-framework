@@ -31,7 +31,7 @@ class Environment
 	 */ 
 	public function __construct($path, array $locations = array())
 	{
-		$this->path = rtrim(rtrim($path, '/'), '\\').DS;
+		$this->setPath($path);
 		$this->locations = $locations;
 	}
 
@@ -48,7 +48,7 @@ class Environment
 			return 'testing';
 		}
 
-		if(file_exists($this->path.'.env.local.php'))
+		if(file_exists($this->getPath().'.env.local.php'))
 		{
 			return 'local';
 		}
@@ -124,7 +124,7 @@ class Environment
 	 */
 	protected function getFile($location)
 	{
-		return $this->path.'.env.'.$location.'.php';
+		return $this->getPath().".env.{$location}.php";
 	}
 
 
@@ -141,5 +141,23 @@ class Environment
 		}
 
 		return false;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPath()
+	{
+		return $this->path;
+	}
+
+	/**
+	 * Set path with trailing slash
+	 *
+	 * @param string $path
+	 */
+	public function setPath($path)
+	{
+		$this->path = rtrim(rtrim($path, '/'), '\\').DS;
 	}
 }

@@ -11,6 +11,11 @@ use Symfony\Component\Security\Core\Exception\InvalidArgumentException;
 class PluginsLoader
 {
 
+	/**
+	 * Path to required plugins
+	 *
+	 * @var array
+	 */
 	private static $required = [
 
 		// Laravel application inside WP
@@ -21,6 +26,11 @@ class PluginsLoader
 
 	];
 
+	/**
+	 * Short names for incorporated plugins
+	 *
+	 * @var array
+	 */
 	private static $lookup = [
 
 		'blade' => 'Blade/blade.php',
