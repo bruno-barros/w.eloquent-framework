@@ -36,10 +36,10 @@ class BladeCompiler extends \Illuminate\View\Compilers\BladeCompiler
 	/**
 	 *
 	 * // without post object
-	 * @presenter(myVarName, Full\Qualified\Presenter\Name [, true])
+	 * @presenter(myVarName, Fully\Qualified\Presenter\Name [, true])
 	 *
 	 * // with post object
-	 * @presenter(myVarName, Full\Qualified\Presenter\Name [, postObj, true])
+	 * @presenter(myVarName, Fully\Qualified\Presenter\Name [, postObj, true])
 	 *
 	 * @param $expression
 	 * @return string
