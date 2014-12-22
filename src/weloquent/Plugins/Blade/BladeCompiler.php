@@ -31,6 +31,64 @@ class BladeCompiler extends \Illuminate\View\Compilers\BladeCompiler
 		return "<?php \${$var} = {$data};?>";
 	}
 
+
+
+	/**
+	 *
+	 * // without post object
+	 * @presenter(myVarName, Full\Qualified\Presenter\Name [, true])
+	 *
+	 * // with post object
+	 * @presenter(myVarName, Full\Qualified\Presenter\Name [, postObj, true])
+	 *
+	 * @param $expression
+	 * @return string
+	 */
+	protected function compilePresenter($expression)
+	{
+		// remove parenthesis
+		$exp  = substr($expression, 1, -1);
+		$args = explode(',', str_replace(' ', '', $exp));
+
+		if (count($args) < 2)
+		{
+			throw new InvalidArgumentException("The variable and the presenter are required.");
+		}
+
+		$var = $args[0];
+
+		$presenter = $args[1];
+
+		if(! isset($args[2]))
+		{
+			$thePost = 'null';
+			$isMainQuery = 1;
+		}
+		else if (is_object($args[2]))
+		{
+			$thePost = $args[2];
+
+			if(isset($args[3]))
+			{
+				$isMainQuery = (strtolower($args[3]) == 'false') ? false : (bool)$args[3];
+			}
+			else
+			{
+				$isMainQuery = 1;
+			}
+
+		}
+		else
+		{
+			$isMainQuery = (strtolower($args[2]) == 'false') ? false : (bool)$args[2];
+
+			$thePost = 'null';
+		}
+
+		return "<?php \${$var} = new {$presenter}({$thePost}, {$isMainQuery}); ?>";
+	}
+
+
 	/**
 	 * @loop
 	 *
