@@ -3,7 +3,6 @@
 use Weloquent\Presenters\PostPresenter;
 use Weloquent\Tests\Support\TestCase;
 
-//use Weloquent\Tests\Support\WP_Post;
 
 /**
  * PostPresenterTest

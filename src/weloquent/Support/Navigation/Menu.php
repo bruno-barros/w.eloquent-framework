@@ -7,6 +7,8 @@ use Symfony\Component\Translation\Exception\NotFoundResourceException;
 /**
  * Menu
  *
+ * This is a wrapper for 'register_nav_menus' and 'wp_nav_menu'
+ *
  * @author Bruno Barros  <bruno@brunobarros.com>
  * @copyright    Copyright (c) 2014 Bruno Barros
  */
