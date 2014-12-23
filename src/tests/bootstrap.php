@@ -24,3 +24,6 @@ if (!class_exists('WP_Error'))
 	require_once __DIR__ . '/Support/class-wp-error.php';
 }
 
+// Fake post
+require_once __DIR__ . '/Support/WP_Post.php';
+
