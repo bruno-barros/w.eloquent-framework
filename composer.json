@@ -29,7 +29,6 @@
   },
   "require": {
     "php": ">=5.4",
-    "bruno-barros/w.eloquent-presenter": "dev-master",
     "composer/installers": "~1.0",
     "laravel/framework": "4.2.*",
     "brain/brain": "dev-master",
@@ -38,7 +37,8 @@
     "brain/striatum": "dev-master",
     "brain/occipital": "dev-master",
     "brain/cortex": "dev-master",
-    "symfony/routing": "2.*"
+    "symfony/routing": "2.*",
+    "symfony/var-dumper": "2.6.*"
   },
   "require-dev": {
     "phpunit/phpunit": "3.7.*",
