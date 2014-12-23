@@ -363,4 +363,15 @@ class PostPresenter extends BasePresenter
 		return $meta_values;
 	}
 
+	/**
+	 * Return the post type as object
+	 *
+	 * @link http://codex.wordpress.org/Function_Reference/get_post_type_object
+	 * @return object
+	 */
+	public function presentPostType()
+	{
+		return get_post_type_object(get_post_type( $this->ID ));
+	}
+
 }

@@ -193,6 +193,11 @@ class BladeCompiler extends \Illuminate\View\Compilers\BladeCompiler
 	 */
 	protected function compileDd($expression)
 	{
+		if(function_exists('dump'))
+		{
+			return "<?php dump{$expression} ?>";
+		}
+
 		return "<?php dd{$expression} ?>";
 	}
 
