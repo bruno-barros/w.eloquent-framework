@@ -1,6 +1,7 @@
 <?php namespace Weloquent\Presenters;
 
 use Illuminate\Database\Eloquent\Collection;
+use Weloquent\Presenters\Contracts\PresenterInterface;
 
 /**
  * PostPresenter
@@ -261,8 +262,6 @@ class PostPresenter extends BasePresenter
 	}
 
 	/**
-	 * Retorna as imagens da galeria do post
-	 *
 	 * Return the imagens on post gallery with certain format
 	 *
 	 * array(5) {
@@ -317,6 +316,149 @@ class PostPresenter extends BasePresenter
 
 		return Collection::make($return);
 
+	}
+
+
+
+	/**
+	 * | ----------------------------------------------------
+	 * | Author presenters
+	 * | ----------------------------------------------------
+	 */
+
+	/**
+	 * Return an instance of AuthorPresenter
+	 *
+	 * @param null $optionalPresenter
+	 * @return AuthorPresenter
+	 */
+	public function author($optionalPresenter = null)
+	{
+		if($optionalPresenter && $optionalPresenter instanceof PresenterInterface)
+		{
+			return new $optionalPresenter($this->wpo, $this->isMainQuery);
+		}
+
+		return new AuthorPresenter($this->wpo, $this->isMainQuery);
+	}
+
+	/**
+	 * Return a object with author information
+	 *
+	 * @return \stdClass
+	 */
+	public function presentAuthor()
+	{
+		$a              = new \stdClass();
+		$a->id          = $this->presentAuthorId();
+		$a->avatar      = $this->presentAuthorAvatar();
+		$a->name        = $this->presentAuthorName();
+		$a->email       = $this->presentAuthorEmail();
+		$a->description = $this->presentAuthorDescription();
+		$a->url         = $this->presentAuthorUrl();
+
+		return $a;
+	}
+
+	/**
+	 * Return the author ID
+	 *
+	 * @return int
+	 */
+	public function presentAuthorId()
+	{
+		if ($this->isMainQuery)
+		{
+			return get_the_author_meta('ID');
+		}
+		else
+		{
+			return $this->post_author;
+		}
+	}
+
+	/**
+	 * Return the <img> with the author avatar
+	 *
+	 * @return string
+	 */
+	public function presentAuthorAvatar()
+	{
+		return $this->getAuthorAvatar();
+	}
+
+	/**
+	 * Return the <img> with the author avatar
+	 *
+	 * @param int $size Img size
+	 * @param string $default Alternative image if not exists
+	 * @param string $alt Alt text of the image
+	 * @return string
+	 */
+	public function getAuthorAvatar($size = 96, $default = '', $alt = false)
+	{
+		return get_avatar($this->presentAuthorEmail(), $size, $default, $alt);
+	}
+
+	/**
+	 * Return the author url
+	 *
+	 * @return string
+	 */
+	public function presentAuthorUrl()
+	{
+		return esc_url(get_author_posts_url($this->presentAuthorId()));
+	}
+
+	/**
+	 * Return the name of the author
+	 *
+	 * @return string
+	 */
+	public function presentAuthorName()
+	{
+		return get_the_author_meta('display_name');
+	}
+
+	/**
+	 * Return the e-mail of the author
+	 *
+	 * @return string
+	 */
+	public function presentAuthorEmail()
+	{
+		return get_the_author_meta('user_email');
+	}
+
+	/**
+	 * Return the description of the author
+	 *
+	 * @return string
+	 */
+	public function presentAuthorDescription()
+	{
+		return get_the_author_meta('description');
+	}
+
+
+	/**
+	 * | ---------------------------------------------------
+	 * | Helper presenters
+	 * | ---------------------------------------------------
+	 */
+
+	/**
+	 * Return the post meta
+	 *
+	 * @param  string $metaKey Chave do metadado
+	 * @param  boolean $single Se retorna um array de valores, ou string punica
+	 * @return mixed
+	 */
+	public function meta($metaKey = '', $single = true)
+	{
+		$meta_values = get_post_meta($this->ID, $metaKey, $single);
+
+		return $meta_values;
 	}
 
 }
