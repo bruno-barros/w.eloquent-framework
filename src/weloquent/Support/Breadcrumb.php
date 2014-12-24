@@ -1,6 +1,8 @@
 <?php namespace Weloquent\Support;
 
 use Illuminate\Support\Collection;
+use Weloquent\Presenters\PagePresenter;
+use Weloquent\Presenters\PostPresenter;
 
 /**
  * Breadcrumb
@@ -12,10 +14,22 @@ class Breadcrumb
 {
 
 	/**
+	 * @var PagePresenter
+	 */
+	protected $post;
+
+	/**
 	 * The title of the homepage. Default is site name.
 	 * @var null
 	 */
 	protected $homeTitle = null;
+
+	function __construct($wpPost = null)
+	{
+		global $post;
+
+		$this->post = new PagePresenter((! $wpPost) ? $post : $wpPost);
+	}
 
 
 	/**
@@ -26,6 +40,7 @@ class Breadcrumb
 	public static function render()
 	{
 		$bc = new static;
+
 		return $bc->get();
 	}
 
@@ -48,9 +63,9 @@ class Breadcrumb
 
 			if (is_category() || is_single())
 			{
-				if ($this->category)
+				if ($this->post->categories)
 				{
-					foreach ($this->category as $c)
+					foreach ($this->post->categories as $c)
 					{
 						$b[] = array(
 							'title' => $c->name,
@@ -62,7 +77,7 @@ class Breadcrumb
 				if (is_single())
 				{
 					$b[] = array(
-						'title' => $this->title,
+						'title' => $this->post->title,
 						'url'   => false
 					);
 				}
@@ -75,19 +90,19 @@ class Breadcrumb
 					'url'   => false
 				);
 			}
-			elseif (is_page() && $this->post_parent)
+			elseif (is_page() && $this->post->post_parent)
 			{
-				for ($i = count($this->ancestors) - 1; $i >= 0; $i--)
+				for ($i = count($this->post->ancestors) - 1; $i >= 0; $i--)
 				{
 					$b[] = array(
-						'id'    => $this->ancestors[$i],
-						'title' => get_the_title($this->ancestors[$i]),
-						'url'   => get_permalink($this->ancestors[$i])
+						'id'    => $this->post->ancestors[$i],
+						'title' => get_the_title($this->post->ancestors[$i]),
+						'url'   => get_permalink($this->post->ancestors[$i])
 					);
 				}
 
 				$b[] = array(
-					'title' => $this->title,
+					'title' => $this->post->title,
 					'url'   => false
 				);
 
@@ -95,7 +110,7 @@ class Breadcrumb
 			elseif (is_page())
 			{
 				$b[] = array(
-					'title' => $this->title,
+					'title' => $this->post->title,
 					'url'   => false
 				);
 			}
