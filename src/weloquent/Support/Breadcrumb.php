@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Collection;
 use Weloquent\Presenters\PagePresenter;
-use Weloquent\Presenters\PostPresenter;
 
 /**
  * Breadcrumb
