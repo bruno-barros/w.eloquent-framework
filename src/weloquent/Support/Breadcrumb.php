@@ -18,6 +18,11 @@ class Breadcrumb
 	protected $post;
 
 	/**
+	 * @var string
+	 */
+	protected $dateFormat = 'F Y';
+
+	/**
 	 * The title of the homepage. Default is site name.
 	 * @var null
 	 */
@@ -36,7 +41,7 @@ class Breadcrumb
 	 *
 	 * @return mixed
 	 */
-	public static function render()
+	public static function make()
 	{
 		$bc = new static;
 
@@ -85,7 +90,7 @@ class Breadcrumb
 			elseif (is_date())
 			{
 				$b[] = array(
-					'title' => get_the_time('F \d\e Y'),
+					'title' => get_the_time($this->dateFormat),
 					'url'   => false
 				);
 			}

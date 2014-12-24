@@ -112,10 +112,10 @@ class PostPresenter extends BasePresenter
 	 */
 	public function presentContent()
 	{
-		if ($this->isMainQuery)
-		{
-			return get_the_content();
-		}
+		//		if ($this->isMainQuery)
+		//		{
+		//			return get_the_content();
+		//		}
 
 		$content = apply_filters('the_content', $this->post_content);
 
@@ -221,6 +221,89 @@ class PostPresenter extends BasePresenter
 	}
 
 
+	/**
+	 * Return a collection of post taxonomies terms
+	 *
+	 * @param  string $taxonomy 'post_tag' is default
+	 * @return Collection
+	 */
+	public function terms($taxonomy = 'post_tag')
+	{
+		$postTerms = wp_get_post_terms($this->ID, $taxonomy);
+
+		$cats = array();
+
+		foreach ($postTerms as $c)
+		{
+			$c->permalink = get_term_link($c, $c->taxonomy);
+			$cats[]       = $c;
+		}
+
+		return Collection::make($cats);
+	}
+
+	/**
+	 * Attribute call to terms()
+	 *
+	 * @return Collection
+	 */
+	public function presentTerms()
+	{
+		return $this->terms();
+	}
+
+
+	/**
+	 * Return a collection of post taxonomies
+	 *
+	 * stdClass Object {
+	 *  ["term_id"]=> int
+	 *  ["name"]=> string
+	 *  ["slug"]=> string
+	 *  ["term_group"]=> int
+	 *  ["term_taxonomy_id"]=> int
+	 *  ["taxonomy"]=> string
+	 *  ["description"]=> string
+	 *  ["parent"]=> int
+	 *  ["count"]=> int
+	 *  ["filter"]=> "raw"
+	 *  ["permalink"]=>  string
+	 *}
+	 *
+	 * @param  string $taxName
+	 * @return Collection
+	 */
+	public function taxonomies($taxName = null)
+	{
+		$thisTax = ($taxName) ? $taxName : $this->categoryTax;
+
+		$taxonomies = wp_get_object_terms($this->ID, $thisTax);
+
+		if (!$taxonomies || empty($taxonomies))
+		{
+			return null;
+		}
+
+		$tax = array();
+
+		foreach ($taxonomies as $t)
+		{
+			$t->permalink = get_term_link($t->slug, $thisTax);
+			$tax[]        = $t;
+		}
+
+		return Collection::make($tax);
+	}
+
+	/**
+	 * Attribute call to taxonomies()
+	 *
+	 * @return array
+	 */
+	public function presentTaxonomies()
+	{
+		return $this->taxonomies();
+	}
 
 	/**
 	 * | ----------------------------------------------------
@@ -334,7 +417,7 @@ class PostPresenter extends BasePresenter
 	 */
 	public function author($optionalPresenter = null)
 	{
-		if($optionalPresenter && $optionalPresenter instanceof PresenterInterface)
+		if ($optionalPresenter && $optionalPresenter instanceof PresenterInterface)
 		{
 			return new $optionalPresenter($this->wpo, $this->isMainQuery);
 		}
@@ -371,7 +454,7 @@ class PostPresenter extends BasePresenter
 	 */
 	public function presentPostType()
 	{
-		return get_post_type_object(get_post_type( $this->ID ));
+		return get_post_type_object(get_post_type($this->ID));
 	}
 
 }
