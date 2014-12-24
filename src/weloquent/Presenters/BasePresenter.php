@@ -54,7 +54,7 @@ abstract class BasePresenter implements PresenterInterface{
 		}
 		else if (is_string($thePost))
 		{
-			$this->wpo = new WP_Query(array('name' => $thePost));
+			$this->wpo = new \WP_Query(array('name' => $thePost));
 		}
 		else
 		{
