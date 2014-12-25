@@ -54,7 +54,7 @@ class BladePlugin
 		add_filter('index_template', array($this, 'parse'));
 
 		// Listen for page template filter
-//		add_filter('page_template', array($this, 'parse'));
+		add_filter('comments_template', array($this, 'parse'));
 
 		// Listen for Buddypress include action
 		add_filter('bp_template_include', array($this, 'parse'));
