@@ -1,6 +1,9 @@
 <?php namespace Weloquent\Providers;
 
 use App\Commands\ExampleCommand;
+use Illuminate\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Tests\FilesystemTest;
+use Weloquent\Console\InstallationCommand;
 use Weloquent\Core\Console\Wel;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\Console\TailCommand;
@@ -37,12 +40,12 @@ class WelServiceProvider extends ServiceProvider {
 			return new EnvironmentCommand;
 		});
 
-//		$this->app->bindShared('command.example', function()
-//		{
-//			return new ExampleCommand();
-//		});
+		$this->app->bindShared('command.installation', function()
+		{
+			return new InstallationCommand(new Filesystem());
+		});
 
-		$this->commands('command.tail', 'command.environment');
+		$this->commands('command.tail', 'command.environment', 'command.installation');
 	}
 
 	/**
@@ -52,7 +55,7 @@ class WelServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return array('artisan', 'command.environment');
+		return array('artisan', 'command.environment', 'command.installation');
 	}
 
 }

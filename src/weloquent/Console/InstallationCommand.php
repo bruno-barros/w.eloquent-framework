@@ -1,14 +1,16 @@
-<?php  namespace Weloquent\Console;
+<?php namespace Weloquent\Console;
 
 use Illuminate\Console\Command;
+use Illuminate\Filesystem\Filesystem;
 
 /**
  * InstallationCommand
- * 
+ *
  * @author Bruno Barros  <bruno@brunobarros.com>
- * @copyright	Copyright (c) 2014 Bruno Barros
+ * @copyright    Copyright (c) 2014 Bruno Barros
  */
-class InstallationCommand extends Command{
+class InstallationCommand extends Command
+{
 
 	/**
 	 * The console command name.
@@ -23,15 +25,20 @@ class InstallationCommand extends Command{
 	 * @var string
 	 */
 	protected $description = 'Optimize WordPress installation.';
+	/**
+	 * @var Filesystem
+	 */
+	private $files;
 
 	/**
 	 * Create a new command instance.
 	 *
 	 * @return \Weloquent\Console\InstallationCommand
 	 */
-	public function __construct()
+	public function __construct(Filesystem $files)
 	{
 		parent::__construct();
+		$this->files = $files;
 	}
 
 	/**
@@ -41,7 +48,14 @@ class InstallationCommand extends Command{
 	 */
 	public function fire()
 	{
-		$this->line("Do some stuff here!!!");
+		$rootPath = dirname(ABSPATH);
+
+		$fromDir  = $rootPath . '/cms/wp-admin';
+		$toDir    = $rootPath . '';
+		$donne = $this->files->copyDirectory($fromDir, $toDir);
+
+		//dump();
+		$this->line('WordPress updated!');
 	}
 
 	/**
@@ -51,8 +65,7 @@ class InstallationCommand extends Command{
 	 */
 	protected function getArguments()
 	{
-		return array(
-//			array('example', InputArgument::REQUIRED, 'An example argument.'),
+		return array(//			array('example', InputArgument::REQUIRED, 'An example argument.'),
 		);
 	}
 
@@ -63,8 +76,7 @@ class InstallationCommand extends Command{
 	 */
 	protected function getOptions()
 	{
-		return array(
-//			array('example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null),
+		return array(//			array('example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null),
 		);
 	}
 
