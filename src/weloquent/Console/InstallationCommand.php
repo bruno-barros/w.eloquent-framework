@@ -50,9 +50,9 @@ class InstallationCommand extends Command
 	{
 		$rootPath = dirname(ABSPATH);
 
-		$fromDir  = $rootPath . '/cms/wp-admin';
-		$toDir    = $rootPath . '/wp-admin';
-		$donne = $this->files->copyDirectory($fromDir, $toDir);
+//		$fromDir  = $rootPath . '/cms/wp-admin';
+//		$toDir    = $rootPath . '/wp-admin';
+//		$donne = $this->files->copyDirectory($fromDir, $toDir);
 
 		//dump();
 		$this->line('WordPress updated!');

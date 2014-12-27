@@ -18,3 +18,17 @@ if(! function_exists('assets'))
 		return Config::get('assets.url').'/'.trim($assetsName, '/');
 	}
 }
+
+if(! function_exists('share'))
+{
+	/**
+	 * View::share('name', 'data');
+	 *
+	 * @param string $var
+	 * @param mixed $data
+	 */
+	function share($var, $data = null)
+	{
+		\Illuminate\Support\Facades\View::share($var, $data);
+	}
+}
