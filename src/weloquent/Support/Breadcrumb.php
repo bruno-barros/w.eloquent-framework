@@ -105,7 +105,6 @@ class Breadcrumb
 				for ($i = count($this->post->ancestors) - 1; $i >= 0; $i--)
 				{
 					$b[] = [
-						'id'    => $this->post->ancestors[$i],
 						'title' => get_the_title($this->post->ancestors[$i]),
 						'url'   => get_permalink($this->post->ancestors[$i])
 					];
