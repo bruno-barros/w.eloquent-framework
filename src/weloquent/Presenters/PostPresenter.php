@@ -454,7 +454,41 @@ class PostPresenter extends BasePresenter
 	 */
 	public function presentPostType()
 	{
-		return get_post_type_object(get_post_type($this->ID));
+		global $wp_rewrite;
+
+		$postType = get_post_type_object(get_post_type($this->ID));
+
+		if(! $postType)
+		{
+			return null;
+		}
+
+		if (get_option('permalink_structure') && is_array($postType->rewrite))
+		{
+
+			$slug = $postType->rewrite['slug'];
+
+			if ($postType->rewrite['with_front'])
+			{
+				$structure = $wp_rewrite->front . $slug;
+			}
+			else
+			{
+				$structure = $wp_rewrite->root . $slug;
+			}
+
+			$link = url(user_trailingslashit($structure, 'post_type_archive'));
+
+		}
+		else
+		{
+			$slug = (isset($postType->slug) && $postType->slug) ? $postType->slug : $postType->name;
+			$link = url('?post_type=' . $slug);
+		}
+
+		$postType->permalink = $link;
+
+		return $postType;
 	}
 
 }

@@ -13,6 +13,12 @@ class Breadcrumb
 {
 
 	/**
+	 * Post types excluded to show link
+	 * @var array
+	 */
+	protected $excludedPostTypes = ['page', 'post'];
+
+	/**
 	 * @var PagePresenter
 	 */
 	protected $post;
@@ -32,7 +38,7 @@ class Breadcrumb
 	{
 		global $post;
 
-		$this->post = new PagePresenter((! $wpPost) ? $post : $wpPost);
+		$this->post = new PagePresenter((!$wpPost) ? $post : $wpPost);
 	}
 
 
@@ -56,82 +62,88 @@ class Breadcrumb
 	public function get()
 	{
 
-		$b = array();
+		$b = [];
 
 		if (!is_front_page())
 		{
-			$b[] = array(
+			// home
+			$b[] = [
 				'title' => ($this->homeTitle) ? $this->homeTitle : get_bloginfo('name'),
 				'url'   => get_option('home')
-			);
+			];
 
-			if (is_category() || is_single())
+			// if is custom post type
+			$postType = $this->post->postType;
+			if (!in_array($postType->name, $this->excludedPostTypes) && !is_category())
 			{
-				if ($this->post->categories)
+				$b[] = ['title' => $postType->label, 'url' => $postType->permalink];
+			}
+
+			if (is_category())
+			{
+				if ($c = get_category(get_query_var('cat')))
 				{
-					foreach ($this->post->categories as $c)
-					{
-						$b[] = array(
-							'title' => $c->name,
-							'url'   => $c->permalink
-						);
-					}
+					$b[] = ['title' => $c->name, 'url' => false];
 				}
 
-				if (is_single())
+			}
+			else if (is_single())
+			{
+				foreach ($this->post->categories as $c)
 				{
-					$b[] = array(
-						'title' => $this->post->title,
-						'url'   => false
-					);
+					$b[] = ['title' => $c->name, 'url' => $c->permalink];
 				}
+				$b[] = ['title' => $this->post->title, 'url' => false];
 
 			}
 			elseif (is_date())
 			{
-				$b[] = array(
-					'title' => get_the_time($this->dateFormat),
-					'url'   => false
-				);
+				$b[] = ['title' => get_the_time($this->dateFormat), 'url' => false];
 			}
 			elseif (is_page() && $this->post->post_parent)
 			{
 				for ($i = count($this->post->ancestors) - 1; $i >= 0; $i--)
 				{
-					$b[] = array(
+					$b[] = [
 						'id'    => $this->post->ancestors[$i],
 						'title' => get_the_title($this->post->ancestors[$i]),
 						'url'   => get_permalink($this->post->ancestors[$i])
-					);
+					];
 				}
 
-				$b[] = array(
-					'title' => $this->post->title,
-					'url'   => false
-				);
+				$b[] = ['title' => $this->post->title, 'url' => false];
 
 			}
 			elseif (is_page())
 			{
-				$b[] = array(
-					'title' => $this->post->title,
+				$b[] = ['title' => $this->post->title, 'url' => false];
+			}
+			else if (is_tag())
+			{
+				$b[] = ['title' => single_tag_title('', false), 'url' => false];
+			}
+			else if(is_author())
+			{
+				$b[] = ['title' => sprintf(__('Posts by %s'), get_the_author()), 'url' => false];
+			}
+			else if (is_search())
+			{
+				$b[] = [
+					'title' => sprintf(__('Search Results %1$s %2$s'), ':', '"' . esc_html(get_search_query()) . '"'),
 					'url'   => false
-				);
+				];
 			}
 			elseif (is_404())
 			{
-				$b[] = array(
-					'title' => "404",
-					'url'   => false
-				);
+				$b[] = ['title' => __('Page not found'), 'url' => false];
 			}
 		}
 		else
 		{
-			$b[] = array(
+			$b[] = [
 				'title' => ($this->homeTitle) ? $this->homeTitle : get_bloginfo('name'),
 				'url'   => false
-			);
+			];
 		}
 
 		return Collection::make($b);
