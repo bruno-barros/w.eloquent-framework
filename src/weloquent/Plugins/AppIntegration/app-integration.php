@@ -25,6 +25,7 @@
 // If this file is called directly, abort.
 use Weloquent\Plugins\AppIntegration\Includes\AppIntegration;
 use Illuminate\Support\Facades\App;
+use Weloquent\Plugins\AppIntegration\Includes\ConfigurationsAutoLoader;
 
 if (!defined('WPINC'))
 {
@@ -32,23 +33,21 @@ if (!defined('WPINC'))
 }
 
 
+
 /**
- * Begins execution of the plugin.
- *
- * Since everything within the plugin is registered via hooks,
- * then kicking off the plugin from this point in the file does
- * not affect the page life cycle.
- *
+ * The core plugin class that is used to define internationalization,
+ * dashboard-specific hooks, and public-facing site hooks.
  */
-function run_app_integration()
-{
-	/**
-	 * The core plugin class that is used to define internationalization,
-	 * dashboard-specific hooks, and public-facing site hooks.
-	 */
-	$plugin = new AppIntegration(App::getFacadeApplication());
-	$plugin->run();
+$plugin = new AppIntegration(App::getFacadeApplication());
+$plugin->run();
 
-}
+/**
+ * ----------------------------------------------------------------
+ * Bootstrap auto loading theme scripts on app/autoload folder
+ * ----------------------------------------------------------------
+ */
+ConfigurationsAutoLoader::setApp(App::getFacadeApplication())->add();
 
-run_app_integration();
+
+
+

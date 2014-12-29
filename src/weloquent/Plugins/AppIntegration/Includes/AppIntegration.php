@@ -95,8 +95,6 @@ class AppIntegration
 			$this->definePublicHooks();
 		}
 
-		ConfigurationsAutoLoader::setApp($this->app)->add();
-
 	}
 
 	public static function getInstance()
