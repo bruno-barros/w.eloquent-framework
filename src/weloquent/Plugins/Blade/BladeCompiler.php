@@ -64,7 +64,7 @@ class BladeCompiler extends \Illuminate\View\Compilers\BladeCompiler
 			$thePost = 'null';
 			$isMainQuery = 1;
 		}
-		else if (is_object($args[2]))
+		else if (substr($args[2], 0, 1) === '$')
 		{
 			$thePost = $args[2];
 
@@ -84,6 +84,9 @@ class BladeCompiler extends \Illuminate\View\Compilers\BladeCompiler
 
 			$thePost = 'null';
 		}
+
+		// should not pass boolean
+		$isMainQuery = (int)$isMainQuery;
 
 		return "<?php \${$var} = new {$presenter}({$thePost}, {$isMainQuery}); ?>";
 	}
