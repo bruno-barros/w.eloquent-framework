@@ -45,7 +45,7 @@ class PluginsLoader
 	public static function bootRequired()
 	{
 		// on test do not load plugins
-		if(self::isTestingEnv())
+		if(self::isUnableToRunPlugins())
 		{
 			return;
 		}
@@ -65,7 +65,7 @@ class PluginsLoader
 	public static function loadFromPath($path)
 	{
 		// on test do not load plugins
-		if(self::isTestingEnv())
+		if(self::isUnableToRunPlugins())
 		{
 			return;
 		}
@@ -93,13 +93,13 @@ class PluginsLoader
 	}
 
 	/**
-	 * Check if is on test
+	 * Check if is on test or installing WordPress
 	 *
 	 * @return bool
 	 */
-	private static function isTestingEnv()
+	private static function isUnableToRunPlugins()
 	{
-		if (defined('WELOQUENT_TEST_ENV'))
+		if (defined('WELOQUENT_TEST_ENV') || defined('WP_INSTALLING'))
 		{
 			return true;
 		}

@@ -12,7 +12,7 @@ use Weloquent\Support\Session\LaravelSessionManager;
  * @author Bruno Barros  <bruno@brunobarros.com>
  * @copyright    Copyright (c) 2015 Bruno Barros
  */
-class SessionServiceProvider extends ServiceProvider
+class SessionServiceProvider extends LaravelServiceProvider
 {
 
 	/**
