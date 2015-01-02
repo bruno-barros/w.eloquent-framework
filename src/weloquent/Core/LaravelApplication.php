@@ -5,7 +5,6 @@ if (!defined('WPINC'))
 	die;
 }
 
-
 /*
 |--------------------------------------------------------------------------
 | Setup Patchwork UTF-8 Handling
@@ -43,8 +42,8 @@ $app = new \Weloquent\Core\Application;
 |
 */
 
-$objEnv = new Weloquent\Config\Environment(dirname(ABSPATH));
-$env = $objEnv->which();
+$objEnv     = new Weloquent\Config\Environment(dirname(ABSPATH));
+$env        = $objEnv->which();
 $app['env'] = $env;
 /*
 |--------------------------------------------------------------------------
@@ -56,8 +55,7 @@ $app['env'] = $env;
 | may do so within the paths.php file and they will be bound here.
 |
 */
-$app->bindInstallPaths(require SRC_PATH.'/bootstrap/paths.php');
-
+$app->bindInstallPaths(require SRC_PATH . '/bootstrap/paths.php');
 
 /*
 |--------------------------------------------------------------------------
@@ -71,6 +69,22 @@ $app->bindInstallPaths(require SRC_PATH.'/bootstrap/paths.php');
 */
 
 $app->instance('app', $app);
+
+/*
+|--------------------------------------------------------------------------
+| Check For The Test Environment
+|--------------------------------------------------------------------------
+|
+| If the "unitTesting" variable is set, it means we are running the unit
+| tests for the application and should override this environment here
+| so we use the right configuration. The flag gets set by TestCase.
+|
+*/
+
+if (isset($unitTesting))
+{
+	$app['env'] = $env = $testEnvironment;
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -99,45 +113,44 @@ Facade::setFacadeApplication($app);
 */
 
 $aliases = array(
-	'app'            => 'Weloquent\Core\Application',
-	'artisan'        => 'Weloquent\Core\Console\WelConsole',
-	'auth'           => 'Illuminate\Auth\AuthManager',
+	'app'                      => 'Weloquent\Core\Application',
+	'artisan'                  => 'Weloquent\Core\Console\WelConsole',
+	'auth'                     => 'Illuminate\Auth\AuthManager',
 	'auth.reminder.repository' => 'Illuminate\Auth\Reminders\ReminderRepositoryInterface',
-	'blade.compiler' => 'Weloquent\Plugins\Blade\BladeCompiler',
-	'cache'          => 'Illuminate\Cache\CacheManager',
-	'cache.store'    => 'Illuminate\Cache\Repository',
-	'config'         => 'Illuminate\Config\Repository',
-	'cookie'         => 'Illuminate\Cookie\CookieJar',
-	'encrypter'      => 'Illuminate\Encryption\Encrypter',
-	'db'             => 'Illuminate\Database\DatabaseManager',
-	'events'         => 'Illuminate\Events\Dispatcher',
-	'files'          => 'Illuminate\Filesystem\Filesystem',
-	'form'           => 'Illuminate\Html\FormBuilder',
-	'hash'           => 'Illuminate\Hashing\HasherInterface',
-	'html'           => 'Illuminate\Html\HtmlBuilder',
-	'translator'     => 'Illuminate\Translation\Translator',
-	'log'            => 'Illuminate\Log\Writer',
-	'mailer'         => 'Illuminate\Mail\Mailer',
-	'paginator'      => 'Illuminate\Pagination\Factory',
-	'auth.reminder'  => 'Illuminate\Auth\Reminders\PasswordBroker',
-	'queue'          => 'Illuminate\Queue\QueueManager',
-	'redirect'       => 'Illuminate\Routing\Redirector',
-	'redis'          => 'Illuminate\Redis\Database',
-//	'request'        => 'Illuminate\Http\Request',
-//	'router'         => 'Illuminate\Routing\Router',
-	'session'        => 'Illuminate\Session\SessionManager',
-	'session.store'  => 'Illuminate\Session\Store',
-	'remote'         => 'Illuminate\Remote\RemoteManager',
-	'url'            => 'Illuminate\Routing\UrlGenerator',
-	'validator'      => 'Illuminate\Validation\Factory',
-	'view'           => 'Illuminate\View\Factory',
+	'blade.compiler'           => 'Weloquent\Plugins\Blade\BladeCompiler',
+	'cache'                    => 'Illuminate\Cache\CacheManager',
+	'cache.store'              => 'Illuminate\Cache\Repository',
+	'config'                   => 'Illuminate\Config\Repository',
+	'cookie'                   => 'Illuminate\Cookie\CookieJar',
+	'encrypter'                => 'Illuminate\Encryption\Encrypter',
+	'db'                       => 'Illuminate\Database\DatabaseManager',
+	'events'                   => 'Illuminate\Events\Dispatcher',
+	'files'                    => 'Illuminate\Filesystem\Filesystem',
+	'form'                     => 'Illuminate\Html\FormBuilder',
+	'hash'                     => 'Illuminate\Hashing\HasherInterface',
+	'html'                     => 'Illuminate\Html\HtmlBuilder',
+	'translator'               => 'Illuminate\Translation\Translator',
+	'log'                      => 'Illuminate\Log\Writer',
+	'mailer'                   => 'Illuminate\Mail\Mailer',
+	'paginator'                => 'Illuminate\Pagination\Factory',
+	'auth.reminder'            => 'Illuminate\Auth\Reminders\PasswordBroker',
+	'queue'                    => 'Illuminate\Queue\QueueManager',
+	'redirect'                 => 'Illuminate\Routing\Redirector',
+	'redis'                    => 'Illuminate\Redis\Database',
+	'request'                  => 'Illuminate\Http\Request',
+	'router'                   => 'Illuminate\Routing\Router',
+	'session'                  => 'Illuminate\Session\SessionManager',
+	'session.store'            => 'Illuminate\Session\Store',
+	'remote'                   => 'Illuminate\Remote\RemoteManager',
+	'url'                      => 'Illuminate\Routing\UrlGenerator',
+	'validator'                => 'Illuminate\Validation\Factory',
+	'view'                     => 'Illuminate\View\Factory',
 );
 
 foreach ($aliases as $key => $alias)
 {
 	$app->alias($key, $alias);
 }
-
 
 /*
 |--------------------------------------------------------------------------
@@ -152,9 +165,10 @@ foreach ($aliases as $key => $alias)
 use Illuminate\Config\Repository as Config;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Config\FileLoader;
+
 $app->instance('config', $config = new Config(
 
-	new FileLoader(new Filesystem, $app['path'].'/config'), $env
+	new FileLoader(new Filesystem, $app['path'] . '/config'), $env
 
 ));
 
@@ -173,8 +187,6 @@ $config = $app['config']['app'];
 
 date_default_timezone_set($config['timezone']);
 
-
-
 /*
 |--------------------------------------------------------------------------
 | Register The Alias Loader
@@ -192,7 +204,6 @@ use Illuminate\Foundation\AliasLoader;
 
 AliasLoader::getInstance($aliases)->register();
 
-
 /*
 |--------------------------------------------------------------------------
 | Enable HTTP Method Override
@@ -206,7 +217,6 @@ AliasLoader::getInstance($aliases)->register();
 use Illuminate\Http\Request;
 
 Request::enableHttpMethodParameterOverride();
-
 
 /*
 |--------------------------------------------------------------------------
@@ -223,8 +233,9 @@ $providers = $config['providers'];
 
 $app->getProviderRepository()->load($app, $providers);
 
+$app->boot();
 
-$app->booted(function() use ($app, $env)
+$app->booted(function () use ($app, $env)
 {
 
 });

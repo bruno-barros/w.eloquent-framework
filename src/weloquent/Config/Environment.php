@@ -124,6 +124,11 @@ class Environment
 	 */
 	protected function getFile($location)
 	{
+		if($location == 'production' && file_exists($envFile = $this->getPath().".env.php"))
+		{
+			return $envFile;
+		}
+
 		return $this->getPath().".env.{$location}.php";
 	}
 
