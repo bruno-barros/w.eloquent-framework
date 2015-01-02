@@ -14,7 +14,7 @@ if (!defined('ABSPATH'))
 	exit();
 }
 
-$vendor = str_replace('\src', '', SRC_PATH);
+$vendor = str_replace(DS.'src', '', SRC_PATH);
 
 add_action('brain_init', function ($brain) use ($vendor)
 {
