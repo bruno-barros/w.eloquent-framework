@@ -24,6 +24,7 @@ class LaravelSessionManager
 		$this->app_key     = $this->laravel['config']['app.key'];
 		$cookie_name       = $this->laravel['config']['session.cookie'];
 		$this->cookie_name = isset($_COOKIE[$cookie_name]) ? $_COOKIE[$cookie_name] : false;
+
 	}
 
 	public function startSession()

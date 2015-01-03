@@ -235,6 +235,8 @@ $app->getProviderRepository()->load($app, $providers);
 
 $app->boot();
 
+$app->run();
+
 $app->booted(function () use ($app, $env)
 {
 
