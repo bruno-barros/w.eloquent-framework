@@ -1,5 +1,6 @@
 <?php namespace Weloquent\Core;
 
+use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
 /**
@@ -34,16 +35,26 @@ class Application extends \Illuminate\Foundation\Application
 
 		$response = with($stack = $self->getStackedClient())->handle($request);
 
-//		$response->send();
+		//		$response->send();
 		$response->sendHeaders();
-		//		$this->sendContent();
+
+
+
+		if ('cli' !== PHP_SAPI)
+		{
+			$response::closeOutputBuffers(0, true);
+		}
+		//				dump($response->getContent());
+
 		//		dd($response);
 
 		$stack->terminate($request, $response);
 
-		add_action('shutdown', function () use ($self, $request)
+		add_action('wp_footer', function () use ($self, $request)
 		{
-			dd($this);
+//			die('shutdown');
+			Session::save();
+			//			dd($this);
 
 		});
 

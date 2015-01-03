@@ -29,7 +29,16 @@ Patchwork\Utf8\Bootup::initMbstring();
 |
 */
 
+use Weloquent\Core\Application;
+
 $app = new \Weloquent\Core\Application;
+
+/**
+ * -----------------------------------------------------
+ * Set my custom request class
+ * -----------------------------------------------------
+ */
+Application::requestClass('Weloquent\Core\Http\Request');
 
 /*
 |--------------------------------------------------------------------------
@@ -214,7 +223,7 @@ AliasLoader::getInstance($aliases)->register();
 | as they are not currently supported by plain HTML form setups.
 |
 */
-use Illuminate\Http\Request;
+use Weloquent\Core\Http\Request;
 
 Request::enableHttpMethodParameterOverride();
 
@@ -233,7 +242,7 @@ $providers = $config['providers'];
 
 $app->getProviderRepository()->load($app, $providers);
 
-$app->boot();
+//$app->boot();
 
 $app->run();
 

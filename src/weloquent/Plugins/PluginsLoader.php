@@ -94,12 +94,15 @@ class PluginsLoader
 
 	/**
 	 * Check if is on test or installing WordPress
+	 * or not using themes (typically running inside Laravel)
 	 *
 	 * @return bool
 	 */
 	private static function isUnableToRunPlugins()
 	{
-		if (defined('WELOQUENT_TEST_ENV') || defined('WP_INSTALLING'))
+		if (defined('WELOQUENT_TEST_ENV')
+			|| defined('WP_INSTALLING')
+			|| WP_USE_THEMES === false)
 		{
 			return true;
 		}
