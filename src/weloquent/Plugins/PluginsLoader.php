@@ -102,7 +102,7 @@ class PluginsLoader
 	{
 		if (defined('WELOQUENT_TEST_ENV')
 			|| defined('WP_INSTALLING')
-			|| WP_USE_THEMES === false)
+			|| (defined('WP_USE_THEMES') && WP_USE_THEMES === false))
 		{
 			return true;
 		}
