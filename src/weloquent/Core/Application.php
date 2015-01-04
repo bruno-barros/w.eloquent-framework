@@ -21,7 +21,8 @@ class Application extends \Illuminate\Foundation\Application
 
 
 	/**
-	 * Run the application and send the response.
+	 * Run the application and save headers.
+	 * The response is up to WordPress
 	 *
 	 * @param  \Symfony\Component\HttpFoundation\Request $request
 	 * @return void
@@ -29,32 +30,26 @@ class Application extends \Illuminate\Foundation\Application
 	public function run(SymfonyRequest $request = null)
 	{
 
-		$self = $this;
+		$request = $request ?: $this['request'];
 
-		$request = $request ?: $self['request'];
+		$response = with($stack = $this->getStackedClient())->handle($request);
 
-		$response = with($stack = $self->getStackedClient())->handle($request);
-
-		//		$response->send();
+		// just set headers, but the content
 		$response->sendHeaders();
-
-
 
 		if ('cli' !== PHP_SAPI)
 		{
 			$response::closeOutputBuffers(0, true);
 		}
-		//				dump($response->getContent());
-
-		//		dd($response);
 
 		$stack->terminate($request, $response);
 
-		add_action('wp_footer', function () use ($self, $request)
+		/**
+		 * Save the session data until the application dies
+		 */
+		add_action('wp_footer', function ()
 		{
-//			die('shutdown');
-			Session::save();
-			//			dd($this);
+			Session::save('wp_footer');
 
 		});
 

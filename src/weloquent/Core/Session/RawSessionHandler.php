@@ -1,4 +1,4 @@
-<?php  namespace Weloquent\Support\Session;
+<?php  namespace Weloquent\Core\Session;
 
 use SessionHandlerInterface;
 

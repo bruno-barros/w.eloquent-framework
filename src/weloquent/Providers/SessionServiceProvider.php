@@ -1,10 +1,9 @@
 <?php namespace Weloquent\Providers;
 
-use Illuminate\Session\SessionManager;
-use Illuminate\Session\SessionServiceProvider as LaravelServiceProvider;
+use Illuminate\Support\Facades\Session;
+use Weloquent\Core\Session\RawSessionHandler;
+use Weloquent\Core\Session\SessionManager;
 use Illuminate\Support\ServiceProvider;
-use Weloquent\Support\Session\CustomSessionManager;
-use Weloquent\Support\Session\LaravelSessionManager;
 
 /**
  * SessionServiceProvider
@@ -12,22 +11,8 @@ use Weloquent\Support\Session\LaravelSessionManager;
  * @author Bruno Barros  <bruno@brunobarros.com>
  * @copyright    Copyright (c) 2015 Bruno Barros
  */
-class SessionServiceProvider extends LaravelServiceProvider
+class SessionServiceProvider extends ServiceProvider
 {
-
-	/**
-	 * Register the manager laravel should use to manage sessions
-	 *
-	 * @return SessionManager
-	 */
-//	protected function registerSessionManager()
-//	{
-//		$this->app->bindShared('session', function ($app)
-//		{
-//			// Tell Laravel to use our session manager
-//			return new CustomSessionManager($app);
-//		});
-//	}
 
 	/**
 	 * Register the service provider.
@@ -36,7 +21,70 @@ class SessionServiceProvider extends LaravelServiceProvider
 	 */
 	public function register()
 	{
-		$manager = new LaravelSessionManager($this->app);
-		$manager->startSession();
+		$this->setupDefaultDriver();
+
+		$this->registerSessionManager();
+
+		$this->registerSessionDriver();
+
+		$this->registerRawSessionDriver();
 	}
+
+	/**
+	 * Setup the default session driver for the application.
+	 *
+	 * @return void
+	 */
+	protected function setupDefaultDriver()
+	{
+		if ($this->app->runningInConsole())
+		{
+			$this->app['config']['session.driver'] = 'array';
+		}
+	}
+
+	/**
+	 * Register the session manager instance.
+	 *
+	 * @return void
+	 */
+	protected function registerSessionManager()
+	{
+		$this->app->bindShared('session', function($app)
+		{
+			return new SessionManager($app);
+		});
+	}
+
+	/**
+	 * Register the session driver instance.
+	 *
+	 * @return void
+	 */
+	protected function registerSessionDriver()
+	{
+
+		$this->app->bindShared('session.store', function($app)
+		{
+			// First, we will create the session manager which is responsible for the
+			// creation of the various session drivers when they are needed by the
+			// application instance, and will resolve them on a lazy load basis.
+			$manager = $app['session'];
+
+			return $manager->driver();
+		});
+	}
+
+	protected function registerRawSessionDriver()
+	{
+		if($namespace = $this->app['config']['session.raw'])
+		{
+			Session::extend('raw', function($app) use ($namespace)
+			{
+				return new RawSessionHandler($namespace);
+			});
+		}
+
+	}
+
 }
