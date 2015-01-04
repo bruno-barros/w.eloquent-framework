@@ -1,5 +1,6 @@
 <?php namespace Weloquent\Core;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
@@ -35,7 +36,10 @@ class Application extends \Illuminate\Foundation\Application
 		$response = with($stack = $this->getStackedClient())->handle($request);
 
 		// just set headers, but the content
-		$response->sendHeaders();
+		if(! is_admin())
+		{
+			$response->sendHeaders();
+		}
 
 		if ('cli' !== PHP_SAPI)
 		{
