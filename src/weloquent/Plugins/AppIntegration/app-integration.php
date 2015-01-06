@@ -26,6 +26,7 @@
 use Weloquent\Plugins\AppIntegration\Includes\AppIntegration;
 use Illuminate\Support\Facades\App;
 use Weloquent\Plugins\AppIntegration\Includes\ConfigurationsAutoLoader;
+use Weloquent\Plugins\AppIntegration\Includes\MigrationsAutoLoader;
 
 if (!defined('WPINC'))
 {
@@ -47,7 +48,3 @@ $plugin->run();
  * ----------------------------------------------------------------
  */
 ConfigurationsAutoLoader::setApp(App::getFacadeApplication())->add();
-
-
-
-
