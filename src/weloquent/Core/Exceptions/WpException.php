@@ -61,7 +61,7 @@ class WpException extends Exception
 	 */
 	public function getWpCode()
 	{
-		$this->wp_code;
+		return $this->wp_code;
 	}
 
 

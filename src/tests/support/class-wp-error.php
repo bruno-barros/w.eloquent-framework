@@ -21,7 +21,7 @@ class WP_Error {
     function get_error_code() {
         $codes = $this->get_error_codes();
         if ( empty( $codes ) ) return '';
-        return $codes[ 0 ];
+        return array_shift($codes);
     }
 
     function get_error_messages( $code = '' ) {
