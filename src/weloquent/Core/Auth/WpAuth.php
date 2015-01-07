@@ -154,10 +154,10 @@ class WpAuth implements UserProviderInterface, UserInterface
 	 *
 	 * @param  array $credentials
 	 * @param  bool $remember
+	 *
 	 * @param  bool $login
 	 * @param bool $secure
 	 * @return bool
-	 * @throws LoginFailedException
 	 */
 	public function attempt(array $credentials = array(), $remember = false, $login = true, $secure = false)
 	{
@@ -189,7 +189,6 @@ class WpAuth implements UserProviderInterface, UserInterface
 	 * @param bool $secure
 	 * @return bool|\WP_Error
 	 * @throws LoginFailedException
-	 * @internal param UserInterface $user
 	 */
 	public function login($credentials = array(), $remember = false, $secure = false)
 	{
