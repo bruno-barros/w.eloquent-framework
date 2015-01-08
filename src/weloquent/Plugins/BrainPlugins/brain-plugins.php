@@ -41,7 +41,7 @@ add_action('brain_init', function ($brain) use ($vendor)
 
 });
 
-add_action('after_setup_theme', function ()
+add_action('setup_theme', function ()
 {
 	Brain\Container::boot(new \Pimple\Container);
 }, 0);

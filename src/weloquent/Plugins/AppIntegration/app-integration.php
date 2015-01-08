@@ -26,14 +26,11 @@
 use Weloquent\Plugins\AppIntegration\Includes\AppIntegration;
 use Illuminate\Support\Facades\App;
 use Weloquent\Plugins\AppIntegration\Includes\ConfigurationsAutoLoader;
-use Weloquent\Plugins\AppIntegration\Includes\MigrationsAutoLoader;
 
 if (!defined('WPINC'))
 {
 	die;
 }
-
-
 
 /**
  * The core plugin class that is used to define internationalization,
@@ -42,9 +39,12 @@ if (!defined('WPINC'))
 $plugin = new AppIntegration(App::getFacadeApplication());
 $plugin->run();
 
-/**
- * ----------------------------------------------------------------
- * Bootstrap auto loading theme scripts on app/autoload folder
- * ----------------------------------------------------------------
- */
-ConfigurationsAutoLoader::setApp(App::getFacadeApplication())->add();
+add_action('setup_theme', function ()
+{
+	/**
+	 * ----------------------------------------------------------------
+	 * Bootstrap auto loading theme scripts on app/autoload folder
+	 * ----------------------------------------------------------------
+	 */
+	ConfigurationsAutoLoader::setApp(App::getFacadeApplication())->add();
+});
