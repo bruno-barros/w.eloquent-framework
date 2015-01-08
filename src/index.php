@@ -1,7 +1,7 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Bruno
- * Date: 09/12/2014
- * Time: 19:45
- */ 
+ * Breadcrumb
+ *
+ * @author Bruno Barros  <bruno@brunobarros.com>
+ * @copyright    Copyright (c) 2014 Bruno Barros
+ */
