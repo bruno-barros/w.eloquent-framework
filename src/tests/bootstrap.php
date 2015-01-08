@@ -17,14 +17,14 @@ require_once ROOT_PATH . '/vendor/phpunit/phpunit/PHPUnit/Framework/Assert/Funct
 // load WP helpers
 if (!class_exists('WP'))
 {
-	require_once __DIR__ . '/Support/class-wp.php';
+	require_once __DIR__ . '/support/class-wp.php';
 }
 if (!class_exists('WP_Error'))
 {
-	require_once __DIR__ . '/Support/class-wp-error.php';
+	require_once __DIR__ . '/support/class-wp-error.php';
 }
 
 // Fakes
-require_once __DIR__ . '/Support/WP_Post.php';
-require_once __DIR__ . '/Support/WP_User.php';
+require_once __DIR__ . '/support/WP_Post.php';
+require_once __DIR__ . '/support/WP_User.php';
 
