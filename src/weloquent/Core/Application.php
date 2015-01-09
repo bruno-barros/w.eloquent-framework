@@ -1,6 +1,5 @@
 <?php namespace Weloquent\Core;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
@@ -21,15 +20,7 @@ class Application extends \Illuminate\Foundation\Application
 	const VERSION = '0.0.1';
 
 
-	/**
-	 * Alias to get App instance
-	 *
-	 * @return mixed
-	 */
-	public function getInstance()
-	{
-		return static::getFacadeApplication();
-	}
+
 
 	/**
 	 * Run the application and save headers.
