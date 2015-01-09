@@ -1,6 +1,7 @@
 <?php namespace Weloquent\Core\Globaljs;
 
 use Illuminate\Support\Arr;
+use Mockery\Test\Generator\StringManipulation\Pass\CallTypeHintPassTest;
 
 /**
  * GlobalJs
@@ -58,10 +59,25 @@ class GlobalJs
 	 */
 	public function remove($index)
 	{
+		if ($this->has($index))
+		{
+			Arr::forget($this->data, $index);
+		}
 
 		return $this;
 	}
 
+	/**
+	 * Remove all data
+	 *
+	 * @return $this
+	 */
+	public function removeAll()
+	{
+		$this->data = [];
+
+		return $this;
+	}
 
 	/**
 	 * check if index already exists
@@ -69,9 +85,29 @@ class GlobalJs
 	 * @param null $index
 	 * @return bool
 	 */
-	private function has($index = null)
+	public function has($index = null)
 	{
-		return array_has($this->data, $index);
+		return Arr::has($this->data, $index);
+	}
+
+	/**
+	 * Return the data as JSON
+	 *
+	 * @return string|void
+	 */
+	public function toJson()
+	{
+		return json_encode($this->getData());
+	}
+
+	/**
+	 * Return the data
+	 *
+	 * @return array
+	 */
+	public function getData()
+	{
+		return $this->data;
 	}
 
 }
