@@ -36,6 +36,22 @@ class BladePlugin
 	private $paths = array();
 
 	/**
+	 * @var array
+	 */
+	private $defaultFilters = [
+		'index_template',
+		'comments_template',
+		'bp_template_include',// Listen for Buddypress include action
+	];
+
+	/**
+	 * @var array
+	 */
+	private $defaultActions = [
+		'template_include',
+	];
+
+	/**
 	 * Constructor
 	 */
 	function __construct()
@@ -44,20 +60,40 @@ class BladePlugin
 		$this->app   = App::getFacadeApplication();
 		$this->paths = require SRC_PATH . '/bootstrap/paths.php';
 
+		$appActions = $this->app['config']['view.view_actions'];
+		$appFilters = $this->app['config']['view.view_filters'];
+
+		$viewAct = $appActions ?: $this->defaultActions;
+		$viewFil = $appFilters ?: $this->defaultFilters;
+
+		/**
+		 * Add actions
+		 */
+		foreach((array)$viewAct as $action)
+		{
+			add_action($action, array($this, 'parse'));
+		}
+
+		/**
+		 * Add filters
+		 */
+		foreach((array)$viewFil as $filter)
+		{
+			add_filter($filter, array($this, 'parse'));
+		}
+
 		// Bind to template include action
 //		add_action('template_redirect', array($this, 'redirect'));
 
 		// Bind to template include action
-		add_action('template_include', array($this, 'parse'));
 
 		// Listen for index template filter
-		add_filter('index_template', array($this, 'parse'));
 
 		// Listen for page template filter
-		add_filter('comments_template', array($this, 'parse'));
+//		add_filter('comments_template', array($this, 'parse'));
 
 		// Listen for Buddypress include action
-		add_filter('bp_template_include', array($this, 'parse'));
+//		add_filter('bp_template_include', array($this, 'parse'));
 
 	}
 
