@@ -31,6 +31,7 @@ class Application extends \Illuminate\Foundation\Application
 		return $this;
 	}
 
+
 	/**
 	 * Run the application and save headers.
 	 * The response is up to WordPress
