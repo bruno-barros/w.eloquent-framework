@@ -1,6 +1,7 @@
 <?php namespace Weloquent\Core\Globaljs;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Mockery\Test\Generator\StringManipulation\Pass\CallTypeHintPassTest;
 
 /**
@@ -93,11 +94,14 @@ class GlobalJs
 	/**
 	 * Return the data as JSON
 	 *
+	 * @param bool $admin
 	 * @return string|void
 	 */
-	public function toJson()
+	public function toJson($admin = false)
 	{
-		return json_encode($this->getData());
+		$data = $this->prepareDataToJson($admin);
+
+		return json_encode($data);
 	}
 
 	/**
@@ -108,6 +112,25 @@ class GlobalJs
 	public function getData()
 	{
 		return $this->data;
+	}
+
+	private function prepareDataToJson($admin = false)
+	{
+
+		// apply admin filter
+		$raw = Arr::where($this->getData(), function ($key, $value) use ($admin)
+		{
+			return $value['admin'] === $admin;
+		});
+
+		$new = [];
+
+		$collection = Collection::make($raw);
+
+		dd($collection->map(function ($item, $key)
+		{
+			return $item['value'];
+		}));
 	}
 
 }
