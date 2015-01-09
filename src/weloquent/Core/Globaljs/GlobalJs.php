@@ -33,11 +33,18 @@ class GlobalJs
 	{
 		if (!$this->has($index))
 		{
-			$this->data  = Arr::add($this->data, $index, $data);
-			$this->metas = Arr::add($this->metas, $index, ['admin' => $toAdmin]);
+			$this->data = Arr::add($this->data, $index, $data);
+
+			$this->metas = Arr::add($this->metas, $this->firstIndex($index), ['admin' => $toAdmin]);
 		}
 
 		return $this;
+	}
+
+	private function firstIndex($index)
+	{
+		return $firstIdx = explode('.', $index)[0];
+
 	}
 
 	/**
@@ -65,7 +72,7 @@ class GlobalJs
 		if ($this->has($index))
 		{
 			Arr::forget($this->data, $index);
-			Arr::forget($this->metas, $index);
+			Arr::forget($this->metas, $this->firstIndex($index));
 		}
 
 		return $this;
@@ -105,6 +112,11 @@ class GlobalJs
 	{
 		$data = $this->prepareDataToJson($admin);
 
+		if (count($data) == 0)
+		{
+			return '{}';
+		}
+
 		return json_encode($data);
 	}
 
@@ -122,19 +134,12 @@ class GlobalJs
 	{
 
 		// apply admin filter
-		$raw = Arr::where($this->getData(), function ($key, $value) use ($admin)
+		return Arr::where($this->getData(), function ($key, $value) use ($admin)
 		{
-			return $value['admin'] === $admin;
+			$meta = Arr::get($this->metas, $key);
+
+			return (!isset($meta['admin'])) ? false : ($meta['admin'] === $admin) ? true : false;
 		});
-
-		$new = [];
-
-		$collection = Collection::make($raw);
-
-		dd($collection->map(function ($item, $key)
-		{
-			return $item['value'];
-		}));
 	}
 
 }
