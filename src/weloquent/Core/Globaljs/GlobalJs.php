@@ -19,6 +19,7 @@ class GlobalJs
 	 */
 	private $data = [];
 
+	private $metas = [];
 
 	/**
 	 * Append new data
@@ -32,7 +33,8 @@ class GlobalJs
 	{
 		if (!$this->has($index))
 		{
-			$this->data = Arr::add($this->data, $index, ['value' => $data, 'admin' => $toAdmin]);
+			$this->data  = Arr::add($this->data, $index, $data);
+			$this->metas = Arr::add($this->metas, $index, ['admin' => $toAdmin]);
 		}
 
 		return $this;
@@ -63,6 +65,7 @@ class GlobalJs
 		if ($this->has($index))
 		{
 			Arr::forget($this->data, $index);
+			Arr::forget($this->metas, $index);
 		}
 
 		return $this;
@@ -75,7 +78,8 @@ class GlobalJs
 	 */
 	public function removeAll()
 	{
-		$this->data = [];
+		$this->data  = [];
+		$this->metas = [];
 
 		return $this;
 	}

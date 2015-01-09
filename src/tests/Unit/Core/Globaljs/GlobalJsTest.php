@@ -35,7 +35,7 @@ class GlobalJsTest extends TestCase{
 
 		assertInternalType('array', $data);
 		assertEquals(1, count($data));
-		assertEquals('bar', $data['foo']['value']);
+		assertEquals('bar', $data['foo']);
 	}
 
 
@@ -50,8 +50,8 @@ class GlobalJsTest extends TestCase{
 		$data = $gjs->getData();
 
 		assertEquals(1, count($data));
-		assertEquals('bar', $data['foo']['baz']['value']);
-		assertInternalType('object', $data['foo']['bazin']['value']);
+		assertEquals('bar', $data['foo']['baz']);
+		assertInternalType('object', $data['foo']['bazin']);
 	}
 
 	/**
@@ -68,7 +68,7 @@ class GlobalJsTest extends TestCase{
 		$data = $gjs->getData();
 
 		assertEquals(1, count($data));
-		assertEquals('bar', $data['foo']['baz']['value']);
+		assertEquals('bar', $data['foo']['baz']);
 	}
 
 	/**
@@ -85,7 +85,7 @@ class GlobalJsTest extends TestCase{
 		$data = $gjs->getData();
 
 		assertEquals(1, count($data));
-		assertEquals('gle', $data['sin']['value']);
+		assertEquals('gle', $data['sin']);
 	}
 
 	/**
@@ -103,11 +103,15 @@ class GlobalJsTest extends TestCase{
 
 		$data = $gjs->getData();
 
+
 		assertEquals(1, count($data));
-		assertEquals('val1', $data['root']['value']);
-		assertEquals('val2', $data['root']['child']['value']);
-		assertEquals('val3', $data['root']['son']['value']);
-		assertEquals('val4', $data['root']['child']['grandchild']['value']);
+		assertInternalType('array', $data['root']);
+		assertInternalType('array', $data['root']['child']);
+		assertEquals('val3', $data['root']['son']);
+		assertEquals('val4', $data['root']['child']['grandchild']);
 	}
+
+
+
 
 }
