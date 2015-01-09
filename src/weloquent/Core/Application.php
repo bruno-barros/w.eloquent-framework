@@ -23,6 +23,17 @@ class Application extends \Illuminate\Foundation\Application
 
 
 	/**
+	 * Alias to get App instance
+	 *
+	 * @return mixed
+	 */
+	public function getInstance()
+	{
+		return $this;
+	}
+
+
+	/**
 	 * Run the application and save headers.
 	 * The response is up to WordPress
 	 *
