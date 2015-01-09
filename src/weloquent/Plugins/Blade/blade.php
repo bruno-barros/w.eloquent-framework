@@ -82,19 +82,6 @@ class BladePlugin
 			add_filter($filter, array($this, 'parse'));
 		}
 
-		// Bind to template include action
-//		add_action('template_redirect', array($this, 'redirect'));
-
-		// Bind to template include action
-
-		// Listen for index template filter
-
-		// Listen for page template filter
-//		add_filter('comments_template', array($this, 'parse'));
-
-		// Listen for Buddypress include action
-//		add_filter('bp_template_include', array($this, 'parse'));
-
 	}
 
 
@@ -104,7 +91,6 @@ class BladePlugin
 	 */
 	public static function make()
 	{
-
 		return new self();
 	}
 
