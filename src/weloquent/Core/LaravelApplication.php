@@ -181,6 +181,22 @@ $app->instance('config', $config = new Config(
 
 ));
 
+
+/*
+|--------------------------------------------------------------------------
+| Register Application Exception Handling
+|--------------------------------------------------------------------------
+|
+| We will go ahead and register the application exception handling here
+| which will provide a great output of exception details and a stack
+| trace in the case of exceptions while an application is running.
+|
+*/
+
+$app->startExceptionHandling();
+
+if ($env != 'testing') ini_set('display_errors', 'Off');
+
 /*
 |--------------------------------------------------------------------------
 | Set The Default Timezone
@@ -247,6 +263,22 @@ $app->run();
 $app->booted(function () use ($app, $env)
 {
 
+	/**
+	 * --------------------------------------------------------------------------
+	 * After load the application
+	 * Load the logs and errors handlers
+	 * --------------------------------------------------------------------------
+	 *
+	 * The start scripts gives this application the opportunity to override
+	 * any of the existing IoC bindings, as well as register its own new
+	 * bindings for things like repositories, etc. We'll load it here.
+	 */
+	$path = $app['path'].DS.'config'.DS.'logs.php';
+
+	if (file_exists($path))
+	{
+		require $path;
+	}
 });
 
 return $app;
