@@ -40,7 +40,7 @@ class GlobalJsServiceProvider extends ServiceProvider
 
 			$output = "<script id=\"weloquent_globaljs\" type=\"text/javascript\">\n\r";
 			$output .= "//<![CDATA[\n\r";
-			$output .= "var weloquent = " . $this->app['weloquent.globaljs']->toJson();
+			$output .= "var GJS = " . $this->app['weloquent.globaljs']->toJson();
 			$output .= "\n\r//]]>\n\r";
 			$output .= "</script>";
 
@@ -57,7 +57,7 @@ class GlobalJsServiceProvider extends ServiceProvider
 
 			$output = "<script id=\"weloquent_globaljs\" type=\"text/javascript\">\n\r";
 			$output .= "//<![CDATA[\n\r";
-			$output .= "var weloquent = " . $this->app['weloquent.globaljs']->toJson(true);
+			$output .= "var GJS = " . $this->app['weloquent.globaljs']->toJson(true);
 			$output .= "\n\r//]]>\n\r";
 			$output .= "</script>";
 
