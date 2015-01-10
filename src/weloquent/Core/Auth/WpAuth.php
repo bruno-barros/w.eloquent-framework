@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\Exception\InvalidArgumentException;
  * @author Bruno Barros  <bruno@brunobarros.com>
  * @copyright    Copyright (c) 2015 Bruno Barros
  */
-class WpAuth implements UserProviderInterface, UserInterface
+class WpAuth implements UserProviderInterface, UserInterface, AuthInterface
 {
 	/**
 	 * Application
@@ -325,7 +325,7 @@ class WpAuth implements UserProviderInterface, UserInterface
 			throw new UserNotFoundException($user);
 		}
 
-		if($this->user())
+		if ($this->user())
 		{
 			$this->logout();
 		}
@@ -338,6 +338,135 @@ class WpAuth implements UserProviderInterface, UserInterface
 
 	}
 
+	/**
+	 * Checks if the user is a certain role,
+	 * or is one of many roles if passed an array.
+	 *
+	 * @param string|array $roles
+	 * @return bool
+	 */
+
+	public function is($roles)
+	{
+		if (!$this->user())
+		{
+			return false;
+		}
+
+		$userRoles = $this->getUser()->roles;
+
+		foreach ((array)$roles as $role)
+		{
+			if (in_array(mb_strtolower($role), $userRoles)
+				|| in_array($role, $userRoles)
+			)
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks if the user is has a certain permission,
+	 * or has one of many permissions if passed an array.
+	 *
+	 * @link http://codex.wordpress.org/Function_Reference/current_user_can
+	 * @param string|array $capability
+	 * @param mixed $args
+	 * @return bool
+	 */
+	public function can($capability, $args = null)
+	{
+		if (!$this->user())
+		{
+			return false;
+		}
+
+		$userCan = false;
+
+		if (is_array($capability))
+		{
+			foreach ($capability as $cap)
+			{
+				// if only one capability is accepted
+				if (current_user_can($cap, $args) === true)
+				{
+					$userCan = true;
+					break;
+				}
+			}
+		}
+		else
+		{
+			$userCan = current_user_can($capability, $args);
+		}
+
+		return $userCan;
+	}
+
+	/**
+	 * Each role can have a numerical level as well;
+	 * this is useful if you want to check someone
+	 * has a higher role than someone else.
+	 *
+	 * Deprecated by WordPress
+	 *
+	 * @param int $level
+	 * @param string $operator Possibilities: < <= = > >=
+	 * @return bool
+	 */
+	public function level($level, $operator = '>=')
+	{
+		if (!$this->user())
+		{
+			return false;
+		}
+
+		$userCaps = array_keys($this->getUser()->allcaps);
+
+		foreach ($userCaps as $cap)
+		{
+			// get just the first, higher
+			if (substr($cap, 0, 6) === 'level_')
+			{
+				return $this->checkWithOperator(substr($cap, 6), $level, $operator);
+			}
+		}
+
+		return false;
+	}
+
+
+	/**
+	 * @param $a
+	 * @param $b
+	 * @param string $operator
+	 * @return bool
+	 */
+	private function checkWithOperator($a, $b, $operator = '>=')
+	{
+		switch ($operator)
+		{
+			case '>=':
+				$result = ($a >= $b) ?: false;
+				break;
+			case '>':
+				$result = ($a > $b) ?: false;
+				break;
+			case '<=':
+				$result = ($a <= $b) ?: false;
+				break;
+			case '<':
+				$result = ($a < $b) ?: false;
+				break;
+			default;
+				$result = ($a == $b) ?: false;
+		}
+
+		return $result;
+	}
 
 	/**
 	 * Fire the attempt event with the arguments.

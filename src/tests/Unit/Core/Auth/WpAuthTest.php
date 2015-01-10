@@ -319,4 +319,138 @@ class WpAuthTest extends TestCase
 
 	}
 
+	/**
+	 * @test
+	 */
+	public function can_should_return_false_if_capability_is_not_able()
+	{
+		\WP_Mock::wpFunction('current_user_can', [
+			'times'  => 1,
+			'return' => false
+		]);
+
+		$app['config']['auth.credentials.login']    = 'user_login';
+		$app['config']['auth.credentials.password'] = 'user_password';
+
+		$wpAuth = new WpAuth($app);
+		$wpAuth->setUser(new \WP_User());
+
+		assertFalse($wpAuth->can('delete_user'));
+
+	}
+
+	/**
+	 * @test
+	 */
+	public function can_should_return_false_if_all_of_the_capabilities_are_not_able()
+	{
+		\WP_Mock::wpFunction('current_user_can', [
+			'times'  => 3,
+			'return' => false
+		]);
+
+		$app['config']['auth.credentials.login']    = 'user_login';
+		$app['config']['auth.credentials.password'] = 'user_password';
+
+		$wpAuth = new WpAuth($app);
+		$wpAuth->setUser(new \WP_User());
+
+		assertFalse($wpAuth->can(['delete_user', 'do_something_else', 'once_more']));
+	}
+
+
+	/**
+	 * @test
+	 */
+	public function can_should_return_true_if_capability_is_able()
+	{
+		\WP_Mock::wpFunction('current_user_can', [
+			'times'  => 1,
+			'return' => true
+		]);
+
+		$app['config']['auth.credentials.login']    = 'user_login';
+		$app['config']['auth.credentials.password'] = 'user_password';
+
+		$wpAuth = new WpAuth($app);
+		$wpAuth->setUser(new \WP_User());
+
+		assertTrue($wpAuth->can('delete_user'));
+
+	}
+
+
+	/**
+	 * @test
+	 */
+	public function can_should_return_true_if_one_of_the_capabilities_are_able()
+	{
+		\WP_Mock::wpFunction('current_user_can', [
+			'times'  => 1,
+			'return' => true
+		]);
+
+		$app['config']['auth.credentials.login']    = 'user_login';
+		$app['config']['auth.credentials.password'] = 'user_password';
+
+		$wpAuth = new WpAuth($app);
+		$wpAuth->setUser(new \WP_User());
+
+		assertTrue($wpAuth->can(['delete_user', 'do_something_else', 'once_more']));
+	}
+
+	/**
+	 * @test
+	 */
+	public function is_should_return_true_if_user_has()
+	{
+		$app['config']['auth.credentials.login']    = 'user_login';
+		$app['config']['auth.credentials.password'] = 'user_password';
+
+		$wpAuth = new WpAuth($app);
+		$wpAuth->setUser(new \WP_User());
+
+		assertTrue($wpAuth->is('administrator'));
+		assertTrue($wpAuth->is('Administrator'));
+	}
+
+	/**
+	 * @test
+	 */
+	public function is_should_return_false_if_user_has_not()
+	{
+		$app['config']['auth.credentials.login']    = 'user_login';
+		$app['config']['auth.credentials.password'] = 'user_password';
+
+		$wpAuth = new WpAuth($app);
+		$wpAuth->setUser(new \WP_User());
+
+		assertFalse($wpAuth->is(['editor', 'subscriber']));
+	}
+
+
+	/**
+	 * @test
+	 */
+	public function level_should_validate_against_user_levels()
+	{
+
+		$app['config']['auth.credentials.login']    = 'user_login';
+		$app['config']['auth.credentials.password'] = 'user_password';
+
+		$wpAuth = new WpAuth($app);
+		$wpAuth->setUser(new \WP_User());// level 10
+
+		assertFalse($wpAuth->level(11));
+		assertTrue($wpAuth->level(10));
+		assertTrue($wpAuth->level(9));
+		assertTrue($wpAuth->level(5));
+		assertTrue($wpAuth->level(1));
+		assertFalse($wpAuth->level(1, '='));
+		assertFalse($wpAuth->level(5, '<'));
+		assertFalse($wpAuth->level(5, '<='));
+		assertTrue($wpAuth->level(5, '>'));
+		assertTrue($wpAuth->level(5, '>='));
+	}
+
 }
