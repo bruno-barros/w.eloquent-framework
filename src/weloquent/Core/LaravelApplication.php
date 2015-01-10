@@ -7,6 +7,24 @@ if (!defined('WPINC'))
 
 /*
 |--------------------------------------------------------------------------
+| Check Extensions
+|--------------------------------------------------------------------------
+|
+| Laravel requires a few extensions to function. Here we will check the
+| loaded extensions to make sure they are present. If not we'll just
+| bail from here. Otherwise, Composer will crazily fall back code.
+|
+*/
+
+if ( ! extension_loaded('mcrypt'))
+{
+	echo 'Mcrypt PHP extension required.'.PHP_EOL;
+
+	exit(1);
+}
+
+/*
+|--------------------------------------------------------------------------
 | Setup Patchwork UTF-8 Handling
 |--------------------------------------------------------------------------
 |
@@ -258,8 +276,6 @@ $providers = $config['providers'];
 
 $app->getProviderRepository()->load($app, $providers);
 
-$app->run();
-
 $app->booted(function () use ($app, $env)
 {
 
@@ -280,5 +296,7 @@ $app->booted(function () use ($app, $env)
 		require $path;
 	}
 });
+
+$app->run();
 
 return $app;
