@@ -7,6 +7,24 @@ if (!defined('WPINC'))
 
 /*
 |--------------------------------------------------------------------------
+| Check Extensions
+|--------------------------------------------------------------------------
+|
+| Laravel requires a few extensions to function. Here we will check the
+| loaded extensions to make sure they are present. If not we'll just
+| bail from here. Otherwise, Composer will crazily fall back code.
+|
+*/
+
+if ( ! extension_loaded('mcrypt'))
+{
+	echo 'Mcrypt PHP extension required.'.PHP_EOL;
+
+	exit(1);
+}
+
+/*
+|--------------------------------------------------------------------------
 | Setup Patchwork UTF-8 Handling
 |--------------------------------------------------------------------------
 |
@@ -181,6 +199,22 @@ $app->instance('config', $config = new Config(
 
 ));
 
+
+/*
+|--------------------------------------------------------------------------
+| Register Application Exception Handling
+|--------------------------------------------------------------------------
+|
+| We will go ahead and register the application exception handling here
+| which will provide a great output of exception details and a stack
+| trace in the case of exceptions while an application is running.
+|
+*/
+
+$app->startExceptionHandling();
+
+if ($env != 'testing') ini_set('display_errors', 'Off');
+
 /*
 |--------------------------------------------------------------------------
 | Set The Default Timezone
@@ -242,11 +276,27 @@ $providers = $config['providers'];
 
 $app->getProviderRepository()->load($app, $providers);
 
-$app->run();
-
 $app->booted(function () use ($app, $env)
 {
 
+	/**
+	 * --------------------------------------------------------------------------
+	 * After load the application
+	 * Load the logs and errors handlers
+	 * --------------------------------------------------------------------------
+	 *
+	 * The start scripts gives this application the opportunity to override
+	 * any of the existing IoC bindings, as well as register its own new
+	 * bindings for things like repositories, etc. We'll load it here.
+	 */
+	$path = $app['path'].DS.'config'.DS.'logs.php';
+
+	if (file_exists($path))
+	{
+		require $path;
+	}
 });
+
+$app->run();
 
 return $app;
