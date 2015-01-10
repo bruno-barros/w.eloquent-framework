@@ -5,6 +5,7 @@ use Brain\Cortex;
 use Weloquent\Core\Http\Redirector;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\ServiceProvider;
+use Weloquent\Core\Http\Router;
 
 /**
  * RouteServiceProvider
@@ -22,7 +23,23 @@ class RouteServiceProvider extends ServiceProvider
 	 */
 	public function register()
 	{
+		// Overcome router to my own implementation
+		$this->app['router'] = $this->app->share(function($app)
+		{
+			$router = new Router($app['events'], $app);
 
+			// If the current application environment is "testing", we will disable the
+			// routing filters, since they can be tested independently of the routes
+			// and just get in the way of our typical controller testing concerns.
+			if ($app['env'] == 'testing')
+			{
+				$router->disableFilters();
+			}
+
+			return $router;
+		});
+
+		// w.eloquent router by Cortex
 		$this->app->bindShared('weloquent.route', function ($app)
 		{
 			return Container::instance()->get('cortex.api');

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
  * Application
@@ -69,6 +70,55 @@ class Application extends \Illuminate\Foundation\Application
 
 		});
 
+	}
+
+	/**
+	 * Register the core class aliases in the container.
+	 *
+	 * @return void
+	 */
+	public function registerCoreContainerAliases()
+	{
+		$aliases = array(
+			'app'                      => 'Weloquent\Core\Application',
+			'artisan'                  => 'Weloquent\Core\Console\WelConsole',
+			'auth'                     => 'Illuminate\Auth\AuthManager',
+			'auth.reminder.repository' => 'Illuminate\Auth\Reminders\ReminderRepositoryInterface',
+			'blade.compiler'           => 'Weloquent\Plugins\Blade\BladeCompiler',
+			'cache'                    => 'Illuminate\Cache\CacheManager',
+			'cache.store'              => 'Illuminate\Cache\Repository',
+			'config'                   => 'Illuminate\Config\Repository',
+			'cookie'                   => 'Illuminate\Cookie\CookieJar',
+			'encrypter'                => 'Illuminate\Encryption\Encrypter',
+			'db'                       => 'Illuminate\Database\DatabaseManager',
+			'events'                   => 'Illuminate\Events\Dispatcher',
+			'files'                    => 'Illuminate\Filesystem\Filesystem',
+			'form'                     => 'Illuminate\Html\FormBuilder',
+			'hash'                     => 'Illuminate\Hashing\HasherInterface',
+			'html'                     => 'Illuminate\Html\HtmlBuilder',
+			'translator'               => 'Illuminate\Translation\Translator',
+			'log'                      => 'Illuminate\Log\Writer',
+			'mailer'                   => 'Illuminate\Mail\Mailer',
+			'paginator'                => 'Illuminate\Pagination\Factory',
+			'auth.reminder'            => 'Illuminate\Auth\Reminders\PasswordBroker',
+			'queue'                    => 'Illuminate\Queue\QueueManager',
+			'redirect'                 => 'Illuminate\Routing\Redirector',
+			'redis'                    => 'Illuminate\Redis\Database',
+			'request'                  => 'Illuminate\Http\Request',
+			//	'router'                   => 'Illuminate\Routing\Router',
+			'router'                   => 'Weloquent\Core\Http\Router',
+			'session'                  => 'Illuminate\Session\SessionManager',
+			'session.store'            => 'Illuminate\Session\Store',
+			'remote'                   => 'Illuminate\Remote\RemoteManager',
+			'url'                      => 'Illuminate\Routing\UrlGenerator',
+			'validator'                => 'Illuminate\Validation\Factory',
+			'view'                     => 'Illuminate\View\Factory',
+		);
+
+		foreach ($aliases as $key => $alias)
+		{
+			$this->alias($key, $alias);
+		}
 	}
 
 }
