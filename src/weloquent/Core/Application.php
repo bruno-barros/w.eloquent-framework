@@ -43,6 +43,14 @@ class Application extends \Illuminate\Foundation\Application
 	 */
 	public function run(SymfonyRequest $request = null)
 	{
+		/**
+		 * On testing environment the WordPress helpers
+		 * will not have context. So we stop here.
+		 */
+		if(defined('WELOQUENT_TEST_ENV') && WELOQUENT_TEST_ENV)
+		{
+			return;
+		}
 
 		$request = $request ?: $this['request'];
 
