@@ -59,13 +59,14 @@ class Application extends \Illuminate\Foundation\Application
 			$response::closeOutputBuffers(0, true);
 		}
 
-		$stack->terminate($request, $response);
 
 		/**
 		 * Save the session data until the application dies
 		 */
-		add_action('wp_footer', function ()
+		add_action('wp_footer', function () use ($stack, $request, $response)
 		{
+			$stack->terminate($request, $response);
+
 			Session::save('wp_footer');
 
 		});
@@ -105,8 +106,8 @@ class Application extends \Illuminate\Foundation\Application
 			'redirect'                 => 'Illuminate\Routing\Redirector',
 			'redis'                    => 'Illuminate\Redis\Database',
 			'request'                  => 'Illuminate\Http\Request',
-			//	'router'                   => 'Illuminate\Routing\Router',
-			'router'                   => 'Weloquent\Core\Http\Router',
+			'router'
+			=> 'Weloquent\Core\Http\Router',
 			'session'                  => 'Illuminate\Session\SessionManager',
 			'session.store'            => 'Illuminate\Session\Store',
 			'remote'                   => 'Illuminate\Remote\RemoteManager',

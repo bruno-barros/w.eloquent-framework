@@ -23,6 +23,7 @@ if ( ! extension_loaded('mcrypt'))
 	exit(1);
 }
 
+
 /*
 |--------------------------------------------------------------------------
 | Setup Patchwork UTF-8 Handling
