@@ -40,12 +40,7 @@ class WelServiceProvider extends ServiceProvider {
 			return new EnvironmentCommand;
 		});
 
-		$this->app->bindShared('command.installation', function()
-		{
-			return new InstallationCommand(new Filesystem());
-		});
-
-		$this->commands('command.tail', 'command.environment', 'command.installation');
+		$this->commands('command.tail', 'command.environment');
 	}
 
 	/**
@@ -55,7 +50,7 @@ class WelServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return array('artisan', 'command.environment', 'command.installation');
+		return array('artisan', 'command.environment');
 	}
 
 }
