@@ -12,7 +12,7 @@ define('WELOQUENT_TEST_ENV', true);
 require_once ROOT_PATH . '/vendor/autoload.php';
 
 // load phpunit helpers
-require_once ROOT_PATH . '/vendor/phpunit/phpunit/PHPUnit/Framework/Assert/Functions.php';
+require_once ROOT_PATH . '/vendor/phpunit/phpunit/src/Framework/Assert/Functions.php';
 
 // load WP helpers
 if (!class_exists('WP'))
