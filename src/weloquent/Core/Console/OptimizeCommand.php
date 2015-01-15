@@ -21,8 +21,6 @@ class OptimizeCommand extends \Illuminate\Foundation\Console\OptimizeCommand
 
 		$outputPath = $this->laravel['path.storage'] . '/compiled.php';
 
-		//		dd($outputPath);
-
 		$this->callSilent('compile', array(
 			'--config'         => implode(',', $this->getClassFiles()),
 			'--output'         => $outputPath,
