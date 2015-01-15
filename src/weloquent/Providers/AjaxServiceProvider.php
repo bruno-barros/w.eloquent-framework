@@ -1,7 +1,7 @@
 <?php namespace Weloquent\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Weloquent\Facades\Ajax;
+use Weloquent\Core\Http\Ajax;
 
 /**
  * AjaxServiceProvider
@@ -18,7 +18,7 @@ class AjaxServiceProvider extends ServiceProvider
 	 */
 	public function register()
 	{
-		$this->app->bindShared('weloquent.ajax', function ($app)
+		$this->app->bind('weloquent.ajax', function ($app)
 		{
 			return new Ajax($app);
 		});
