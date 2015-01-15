@@ -18,7 +18,7 @@ class Application extends \Illuminate\Foundation\Application
 	 *
 	 * @var string
 	 */
-	const VERSION = '1.0.2';
+	const VERSION = '1.0.3';
 
 
 
