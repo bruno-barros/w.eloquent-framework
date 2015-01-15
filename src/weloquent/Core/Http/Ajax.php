@@ -40,7 +40,7 @@ class Ajax
 	 * @param callable|string $callable The function to run when ajax action is called
 	 * @throws AjaxException
 	 */
-	public function run($action, $logged = 'no', $callable)
+	public function listen($action, $logged = 'no', $callable)
 	{
 
 		if (!is_string($action) || strlen($action) == 0)
@@ -79,6 +79,28 @@ class Ajax
 
 		}
 
+	}
+
+
+	/**
+	 * Check nonce against app.key
+	 *
+	 * @param null|string $nonce By default will use 'nonce' index
+	 * @param null|string $value By default will get app.key
+	 * @param null|string $message By default try to get translation on ajax.invalid
+	 */
+	public function validate($nonce = null, $value = null, $message = null)
+	{
+
+		$nonce = ($nonce) ? $nonce : $this->app['request']->get('nonce');
+		$value = ($value) ? $value : $this->app['config']->get('app.key');
+
+		if (!wp_verify_nonce($nonce, $value))
+		{
+			$default = ($msg = trans('ajax.invalid')) ? $msg : 'AJAX is invalid.';
+
+			wp_send_json(['error' => true, 'msg' => ($message) ? $message : $default]);
+		}
 	}
 
 

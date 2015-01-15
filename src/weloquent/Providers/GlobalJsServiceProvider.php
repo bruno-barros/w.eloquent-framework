@@ -23,7 +23,7 @@ class GlobalJsServiceProvider extends ServiceProvider
 		$this->app->bindShared('weloquent.globaljs', function ($app)
 		{
 
-			return new GlobalJs;
+			return new GlobalJs($app);
 
 		});
 

@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Mockery\Test\Generator\StringManipulation\Pass\CallTypeHintPassTest;
+//use Mockery\Test\Generator\StringManipulation\Pass\CallTypeHintPassTest;
+use Weloquent\Core\Application;
 
 /**
  * GlobalJs
@@ -13,6 +14,12 @@ use Mockery\Test\Generator\StringManipulation\Pass\CallTypeHintPassTest;
 class GlobalJs
 {
 
+
+	/**
+	 * @var Application
+	 */
+	private $app;
+
 	/**
 	 * Data to be converted in JSON on view
 	 * @var array
@@ -20,6 +27,16 @@ class GlobalJs
 	private $data = [];
 
 	private $metas = [];
+
+	/**
+	 * @param Application $app
+	 */
+	function __construct(Application $app)
+	{
+		$this->app = $app;
+		$this->generateNonce();
+	}
+
 
 	/**
 	 * Append new data
@@ -139,6 +156,15 @@ class GlobalJs
 
 			return ($admin === false && $meta['admin'] === true) ? false : true;
 		});
+	}
+
+	/**
+	 * Generate a nonce hash
+	 */
+	private function generateNonce()
+	{
+		$key = $this->app['config']->get('app.key');
+		$this->add('nonce', wp_create_nonce($key));
 	}
 
 }

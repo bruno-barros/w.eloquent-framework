@@ -46,7 +46,7 @@ class AjaxTest extends TestCase
 	 */
 	public function it_should_throw_exception()
 	{
-		$this->ajax->run(1, 'both', 'foo');
+		$this->ajax->listen(1, 'both', 'foo');
 	}
 
 
@@ -56,7 +56,7 @@ class AjaxTest extends TestCase
 	 */
 	public function it_should_throw_exception_with_non_existing_class()
 	{
-		$this->ajax->run('my_hook', 'both', 'foo');
+		$this->ajax->listen('my_hook', 'both', 'foo');
 	}
 
 
@@ -67,7 +67,7 @@ class AjaxTest extends TestCase
 	{
 		\WP_Mock::wpFunction('add_action');
 
-		$this->ajax->run('my_action', 'no', function(){
+		$this->ajax->listen('my_action', 'no', function(){
 
 			return 'foo';
 
@@ -82,8 +82,7 @@ class AjaxTest extends TestCase
 	{
 		\WP_Mock::wpFunction('add_action');
 
-		$this->ajax->run('my_action', 'no', 'Weloquent\Tests\Unit\Core\Http\MyFakeAjaxRunner');
+		$this->ajax->listen('my_action', 'no', 'Weloquent\Tests\Unit\Core\Http\MyFakeAjaxRunner');
 	}
-
 
 }
