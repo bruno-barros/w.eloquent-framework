@@ -54,7 +54,6 @@ class GlobalJsServiceProvider extends ServiceProvider
 	{
 		add_action('admin_head', function ()
 		{
-
 			$output = "<script id=\"weloquent_globaljs\" type=\"text/javascript\">\n\r";
 			$output .= "//<![CDATA[\n\r";
 			$output .= "var GJS = " . $this->app['weloquent.globaljs']->toJson(true);

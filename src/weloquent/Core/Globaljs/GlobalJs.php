@@ -132,13 +132,12 @@ class GlobalJs
 
 	private function prepareDataToJson($admin = false)
 	{
-
 		// apply admin filter
 		return Arr::where($this->getData(), function ($key, $value) use ($admin)
 		{
 			$meta = Arr::get($this->metas, $key);
 
-			return (!isset($meta['admin'])) ? false : ($meta['admin'] === $admin) ? true : false;
+			return ($admin === false && $meta['admin'] === true) ? false : true;
 		});
 	}
 
