@@ -34,7 +34,7 @@ class GlobalJs
 	function __construct(Application $app)
 	{
 		$this->app = $app;
-		$this->generateNonce();
+
 	}
 
 
@@ -161,10 +161,18 @@ class GlobalJs
 	/**
 	 * Generate a nonce hash
 	 */
-	private function generateNonce()
+	public function generateNonce()
 	{
 		$key = $this->app['config']->get('app.key');
 		$this->add('nonce', wp_create_nonce($key));
+	}
+
+	/**
+	 * Generate a nonce hash
+	 */
+	public function generateAjaxUrl()
+	{
+		$this->add('ajaxurl', admin_url('admin-ajax.php'));
 	}
 
 }

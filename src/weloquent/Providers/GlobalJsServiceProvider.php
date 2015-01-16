@@ -27,6 +27,15 @@ class GlobalJsServiceProvider extends ServiceProvider
 
 		});
 
+		/**
+		 * Generate default values
+		 */
+		add_action('setup_theme', function(){
+			$this->app['weloquent.globaljs']->generateNonce();
+			$this->app['weloquent.globaljs']->generateAjaxUrl();
+
+		});
+
 		$this->registerFrontAction();
 
 		$this->registerAdminAction();

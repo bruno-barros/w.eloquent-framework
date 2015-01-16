@@ -29,6 +29,7 @@ class AjaxTest extends TestCase
 	public function setUp()
 	{
 		parent::setUp();
+
 		$this->ajax = new Ajax(new Application());
 	}
 

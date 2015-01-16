@@ -1,5 +1,6 @@
 <?php namespace Weloquent\Tests\Unit\Core\Globaljs;
 
+use Weloquent\Core\Application;
 use Weloquent\Core\Globaljs\GlobalJs;
 use Weloquent\Tests\Support\TestCase;
 
@@ -14,6 +15,12 @@ class GlobalJsTest extends TestCase{
 	public function setUp()
 	{
 		parent::setUp();
+
+//		\Mockery::mock('Weloquent\Core\Globaljs\GlobalJs')
+//			->shouldReceive('generateNonce')->once()->andReturnNull();
+//
+//		\Mockery::mock('Weloquent\Core\Globaljs\GlobalJs')
+//			->shouldReceive('generateAjaxUrl')->once()->andReturnNull();
 	}
 
 	/**
@@ -21,7 +28,7 @@ class GlobalJsTest extends TestCase{
 	 */
 	public function it_should_be_instantiable()
 	{
-		assertInstanceOf('Weloquent\Core\Globaljs\GlobalJs', new GlobalJs());
+		assertInstanceOf('Weloquent\Core\Globaljs\GlobalJs', new GlobalJs(new Application()));
 	}
 
 	/**
@@ -29,7 +36,7 @@ class GlobalJsTest extends TestCase{
 	 */
 	public function it_should_add_an_single_item()
 	{
-		$gjs = new GlobalJs();
+		$gjs = new GlobalJs(new Application());
 		$gjs->add('foo', 'bar');
 		$data = $gjs->getData();
 
@@ -44,7 +51,7 @@ class GlobalJsTest extends TestCase{
 	 */
 	public function it_should_add_an_multilevel_item()
 	{
-		$gjs = new GlobalJs();
+		$gjs = new GlobalJs(new Application());
 		$gjs->add('foo.baz', 'bar');
 		$gjs->add('foo.bazin', new \stdClass());
 		$data = $gjs->getData();
@@ -59,7 +66,7 @@ class GlobalJsTest extends TestCase{
 	 */
 	public function it_should_remove_an_single_item()
 	{
-		$gjs = new GlobalJs();
+		$gjs = new GlobalJs(new Application());
 		$gjs->add('sin', 'gle');
 		$gjs->add('foo.baz', 'bar');
 
@@ -76,7 +83,7 @@ class GlobalJsTest extends TestCase{
 	 */
 	public function it_should_remove_an_multilevel_item()
 	{
-		$gjs = new GlobalJs();
+		$gjs = new GlobalJs(new Application());
 		$gjs->add('sin', 'gle');
 		$gjs->add('foo.baz', 'bar');
 
@@ -94,7 +101,7 @@ class GlobalJsTest extends TestCase{
 	public function complex_multilevel_data()
 	{
 
-		$gjs = new GlobalJs();
+		$gjs = new GlobalJs(new Application());
 		$gjs->add('root', 'val1')
 			->add('root.child', 'val2')
 			->add('root.son', 'val3')

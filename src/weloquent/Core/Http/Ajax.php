@@ -88,8 +88,9 @@ class Ajax
 	 * @param null|string $nonce By default will use 'nonce' index
 	 * @param null|string $value By default will get app.key
 	 * @param null|string $message By default try to get translation on ajax.invalid
+	 * @param null|mixed $data
 	 */
-	public function validate($nonce = null, $value = null, $message = null)
+	public function validate($nonce = null, $value = null, $message = null, $data = null)
 	{
 
 		$nonce = ($nonce) ? $nonce : $this->app['request']->get('nonce');
@@ -99,7 +100,13 @@ class Ajax
 		{
 			$default = ($msg = trans('ajax.invalid')) ? $msg : 'AJAX is invalid.';
 
-			wp_send_json(['error' => true, 'msg' => ($message) ? $message : $default]);
+			$data = ($data) ? $data : $this->app['request']->except(['nonce', 'action']);
+
+			wp_send_json([
+				'error' => true,
+				'msg'   => ($message) ? $message : $default,
+				'data'  => $data
+			]);
 		}
 	}
 
