@@ -119,6 +119,7 @@ class Menu implements MenuInterface
 		// overwrite this
 		$args['echo'] = false;
 		$args['menu'] = $name;
+		$args['theme_location'] = $name;
 
 		$config = array_merge($this->defaults, $args);
 
