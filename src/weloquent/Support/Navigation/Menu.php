@@ -1,4 +1,4 @@
-<?php  namespace Weloquent\Support\Navigation;
+<?php namespace Weloquent\Support\Navigation;
 
 use Weloquent\Core\Application;
 use Weloquent\Support\Navigation\Contracts\MenuInterface;
@@ -27,13 +27,18 @@ class Menu implements MenuInterface
 	 */
 	private $menusRegistered = [];
 
+
+	/**
+	 * The ID of the last updated menu
+	 * @var string
+	 */
+	private $lastUpdated = '';
+
 	/**
 	 * Defaults configuration
 	 * @var array
 	 */
 	private $defaults = array(
-		'theme_location'  => '',
-		'menu'            => 'menu',
 		'container'       => 'div',
 		'container_class' => '',
 		'container_id'    => '',
@@ -67,6 +72,7 @@ class Menu implements MenuInterface
 	 * @param string $description
 	 * @param array $args See Wordpress codex to get the options
 	 *
+	 * @return $this
 	 */
 	public function add($name = '', $description = '', array $args = [])
 	{
@@ -76,6 +82,45 @@ class Menu implements MenuInterface
 		// configure the output
 		$this->configureTheOutputMenu($name, $args);
 
+		return $this;
+	}
+
+	/**
+	 * Append a string on the menu
+	 *
+	 * @param string $string
+	 * @return $this
+	 */
+	public function after($string = '')
+	{
+		$lastUpdated = $this->lastUpdated;
+
+		add_filter('wp_nav_menu_items', function ($items, $args) use($lastUpdated, $string)
+		{
+			return $items . $string;
+
+		}, 10, 2);
+
+		return $this;
+	}
+
+	/**
+	 * Append a string on the menu
+	 *
+	 * @param string $string
+	 * @return $this
+	 */
+	public function before($string = '')
+	{
+		$lastUpdated = $this->lastUpdated;
+
+		add_filter('wp_nav_menu_items', function ($items, $args) use($lastUpdated, $string)
+		{
+			return $string . $items;
+
+		}, 10, 2);
+
+		return $this;
 	}
 
 	/**
@@ -98,6 +143,8 @@ class Menu implements MenuInterface
 	 */
 	private function registerMenu($name, $description)
 	{
+		$this->menusRegistered[$name] = ['description' => $description];
+
 		add_action('init', function () use ($name, $description)
 		{
 
@@ -117,13 +164,29 @@ class Menu implements MenuInterface
 	private function configureTheOutputMenu($name, $args)
 	{
 		// overwrite this
-		$args['echo'] = false;
-		$args['menu'] = $name;
+		$args['echo']           = false;
+		$args['menu']           = $name;
 		$args['theme_location'] = $name;
 
-		$config = array_merge($this->defaults, $args);
+		$config = array_merge($this->defaults, (array)$args);
 
-		$this->menusRegistered[$name] = $config;
+		$this->updateMenu($name, $config);
+		//		$this->menusRegistered[$name] = $config;
+	}
+
+	/**
+	 * Add or update attributes to menu
+	 *
+	 * @param $name
+	 * @param array $args
+	 */
+	private function updateMenu($name, array $args)
+	{
+		if (isset($this->menusRegistered[$name]))
+		{
+			$this->menusRegistered[$name] = array_merge($this->menusRegistered[$name], $args);
+			$this->lastUpdated            = $name;
+		}
 	}
 
 } 

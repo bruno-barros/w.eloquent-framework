@@ -36,8 +36,8 @@ if (!defined('WPINC'))
  * The core plugin class that is used to define internationalization,
  * dashboard-specific hooks, and public-facing site hooks.
  */
-$plugin = new AppIntegration(App::getFacadeApplication());
-$plugin->run();
+//$plugin = new AppIntegration(App::getFacadeApplication());
+//$plugin->run();
 
 add_action('setup_theme', function ()
 {
