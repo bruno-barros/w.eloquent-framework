@@ -95,9 +95,14 @@ class Menu implements MenuInterface
 	{
 		$lastUpdated = $this->lastUpdated;
 
-		add_filter('wp_nav_menu_items', function ($items, $args) use($lastUpdated, $string)
+		add_filter('wp_nav_menu_items', function ($items, $args) use ($lastUpdated, $string)
 		{
-			return $items . $string;
+			if ($args->theme_location == $lastUpdated)
+			{
+				$items .= $string;
+			}
+
+			return $items;
 
 		}, 10, 2);
 
@@ -114,9 +119,13 @@ class Menu implements MenuInterface
 	{
 		$lastUpdated = $this->lastUpdated;
 
-		add_filter('wp_nav_menu_items', function ($items, $args) use($lastUpdated, $string)
+		add_filter('wp_nav_menu_items', function ($items, $args) use ($lastUpdated, $string)
 		{
-			return $string . $items;
+			if ($args->theme_location == $lastUpdated)
+			{
+				$items = $string . $items;
+			}
+			return $items;
 
 		}, 10, 2);
 
