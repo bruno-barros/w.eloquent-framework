@@ -89,9 +89,12 @@ class Breadcrumb
 			}
 			else if (is_single())
 			{
-				foreach ($this->post->categories as $c)
+				if($categories = $this->post->categories)
 				{
-					$b[] = ['title' => $c->name, 'url' => $c->permalink];
+					foreach ($categories as $c)
+					{
+						$b[] = ['title' => $c->name, 'url' => $c->permalink];
+					}
 				}
 				$b[] = ['title' => $this->post->title, 'url' => false];
 
