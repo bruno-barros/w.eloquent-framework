@@ -108,10 +108,12 @@ class Breadcrumb
 			else if (is_tax())
 			{
 				// if is custom post type
-				$postType = $this->post->postType;
-				if (!in_array($postType->name, $this->excludedPostTypes))
+				if($this->post && $postType = $this->post->postType)
 				{
-					$b[] = ['title' => $postType->label, 'url' => $postType->permalink];
+					if (!in_array($postType->name, $this->excludedPostTypes))
+					{
+						$b[] = ['title' => $postType->label, 'url' => $postType->permalink];
+					}
 				}
 
 				$tax = get_term_by('slug', get_query_var('term'), get_query_var('taxonomy'));
