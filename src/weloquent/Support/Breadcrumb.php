@@ -45,7 +45,14 @@ class Breadcrumb
 	{
 		global $post;
 
-		$this->post = new PagePresenter((!$wpPost) ? $post : $wpPost);
+
+		$thePost = (!$wpPost) ? ($post) ? $post : null : $wpPost;
+
+		if($thePost)
+		{
+			$this->post = new PagePresenter($thePost);
+		}
+
 		$this->args = array_merge($this->args, $args);
 	}
 
