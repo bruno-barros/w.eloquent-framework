@@ -38,6 +38,10 @@ class Pagination
 
 	function __construct($defaults = null)
 	{
+
+		$this->defaults['prev_text'] = __('« Previous');
+		$this->defaults['next_text'] = __('Next »');
+
 		if ($defaults)
 		{
 			$this->defaults = array_merge($this->defaults, (array)$defaults);
@@ -148,7 +152,9 @@ class Pagination
 			'mid_size' => $this->midSize,
 			'total'    => $wp_query->max_num_pages,
 			'current'  => $current,
-			'type'     => 'array'
+			'type'     => 'array',
+			'prev_text' => $this->defaults['prev_text'],
+			'next_text' => $this->defaults['next_text'],
 		);
 
 		//build the paging links
