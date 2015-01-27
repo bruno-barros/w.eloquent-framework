@@ -160,7 +160,7 @@ class Pagination
 		//more paging links
 		if (!empty($wp_query->query_vars['s']))
 		{
-			$pagination['add_args'] = array('s' => get_query_var('s'));
+			$pagination['add_args'] = array('s' => urlencode(get_query_var('s')));
 		}
 
 		$aLinks = paginate_links($pagination);
