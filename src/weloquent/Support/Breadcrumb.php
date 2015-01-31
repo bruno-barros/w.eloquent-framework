@@ -38,17 +38,16 @@ class Breadcrumb
 	 */
 	protected $args = [
 		'taxonomies' => null,
-		'overload' => []
+		'overload'   => []
 	];
 
 	function __construct($wpPost = null, array $args = [])
 	{
 		global $post;
 
-
 		$thePost = (!$wpPost) ? ($post) ? $post : null : $wpPost;
 
-		if($thePost)
+		if ($thePost)
 		{
 			$this->post = new PagePresenter($thePost);
 		}
@@ -96,7 +95,7 @@ class Breadcrumb
 				}
 
 			}
-			else if (is_post_type_archive() && ! is_tax())
+			else if (is_post_type_archive() && !is_tax())
 			{
 				$postType = $this->post->postType;
 				if (!in_array($postType->name, $this->excludedPostTypes))
@@ -108,7 +107,7 @@ class Breadcrumb
 			else if (is_tax())
 			{
 				// if is custom post type
-				if($this->post && $postType = $this->post->postType)
+				if ($this->post && $postType = $this->post->postType)
 				{
 					if (!in_array($postType->name, $this->excludedPostTypes))
 					{
@@ -116,7 +115,9 @@ class Breadcrumb
 					}
 				}
 
-				$tax = get_term_by('slug', get_query_var('term'), get_query_var('taxonomy'));
+				$term = (!get_query_var('term')) ? get_query_var('term_id') : get_query_var('term');
+
+				$tax = get_term_by('slug', $term, get_query_var('taxonomy'));
 				$b[] = ['title' => $tax->name, 'url' => null];
 
 			}
@@ -130,11 +131,11 @@ class Breadcrumb
 					$b[] = ['title' => $postType->label, 'url' => $postType->permalink];
 				}
 				else if (in_array($postType->name, $this->excludedPostTypes)
-					&& $custom = $this->getOverloaded($postType->name))
+					&& $custom = $this->getOverloaded($postType->name)
+				)
 				{
 					$b[] = ['title' => $custom->labels->name, 'url' => $custom->permalink];
 				}
-
 
 				if ($this->post->categories)
 				{
@@ -236,7 +237,7 @@ class Breadcrumb
 	 */
 	protected function getOverloaded($postType)
 	{
-		if(!isset($this->args['overload'][$postType]))
+		if (!isset($this->args['overload'][$postType]))
 		{
 			return null;
 		}
