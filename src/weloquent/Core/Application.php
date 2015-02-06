@@ -64,7 +64,7 @@ class Application extends \Illuminate\Foundation\Application
 
 		if ('cli' !== PHP_SAPI)
 		{
-			$response::closeOutputBuffers(0, true);
+			$response::closeOutputBuffers(0, false);
 		}
 
 
