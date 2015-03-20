@@ -12,6 +12,8 @@ use Weloquent\Presenters\PagePresenter;
 class Breadcrumb
 {
 
+	use TaxonomyTrait;
+
 	/**
 	 * Post types excluded to show link
 	 * @var array
@@ -77,6 +79,9 @@ class Breadcrumb
 	public function get()
 	{
 
+		dump($this->getPostType());
+		dump($this->getTax());
+		dump($this->getTerm());
 		$b = [];
 
 		if (!is_front_page())
@@ -106,18 +111,17 @@ class Breadcrumb
 			}
 			else if (is_tax())
 			{
+
 				// if is custom post type
-				if ($this->post && $postType = $this->post->postType)
+				if ($pt = get_post_type_object($this->getPostType()))
 				{
-					if (!in_array($postType->name, $this->excludedPostTypes))
+					if (!in_array($pt->name, $this->excludedPostTypes))
 					{
-						$b[] = ['title' => $postType->label, 'url' => $postType->permalink];
+						$b[] = ['title' => $pt->label, 'url' => get_post_type_archive_link($this->getPostType())];
 					}
 				}
 
-				$term = (!get_query_var('term')) ? get_query_var('term_id') : get_query_var('term');
-
-				$tax = get_term_by('slug', $term, get_query_var('taxonomy'));
+				$tax = get_term_by('slug', $this->getTerm(), get_query_var('taxonomy'));
 				$b[] = ['title' => $tax->name, 'url' => null];
 
 			}
@@ -214,7 +218,7 @@ class Breadcrumb
 	{
 		if (!isset($this->args['taxonomies']) || empty($this->args['taxonomies']))
 		{
-			return null;
+			$this->args['taxonomies'] = $this->getDefaultTaxonomies();
 		}
 
 		foreach ($this->args['taxonomies'] as $tax)
@@ -243,6 +247,14 @@ class Breadcrumb
 		}
 
 		return $this->args['overload'][$postType];
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function getDefaultTaxonomies()
+	{
+		return array_values(get_taxonomies());
 	}
 
 }

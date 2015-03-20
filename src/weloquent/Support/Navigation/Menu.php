@@ -3,6 +3,7 @@
 use Weloquent\Core\Application;
 use Weloquent\Support\Navigation\Contracts\MenuInterface;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Menu
@@ -133,6 +134,22 @@ class Menu implements MenuInterface
 	}
 
 	/**
+	 * Set time to cache the menu HTML
+	 *
+	 * @param int $minutes
+	 * @return $this
+	 */
+	public function remember($minutes = 0)
+	{
+		if(isset($this->menusRegistered[$this->lastUpdated]))
+		{
+			$this->menusRegistered[$this->lastUpdated]['remember'] = $minutes;
+		}
+
+		return $this;
+	}
+
+	/**
 	 * @param string $name The menu identifier
 	 * @return mixed
 	 */
@@ -143,7 +160,20 @@ class Menu implements MenuInterface
 			throw new NotFoundResourceException("The menu [{$name}] could not be found.");
 		}
 
-		return wp_nav_menu($this->menusRegistered[$name]);
+		$thisMenu = $this->menusRegistered[$name];
+
+		if(isset($thisMenu['remember']) && $thisMenu['remember'] > 0)
+		{
+			return Cache::remember($name, $thisMenu['remember'], function() use ($thisMenu)
+			{
+				return wp_nav_menu($thisMenu);
+			});
+		}
+		else
+		{
+			return wp_nav_menu($thisMenu);
+		}
+
 	}
 
 	/**
