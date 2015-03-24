@@ -77,7 +77,7 @@ class SessionServiceProvider extends ServiceProvider
 
 	protected function registerRawSessionDriver()
 	{
-		if($namespace = $this->app['config']['session.raw'])
+		if($namespace = $this->app['config']['session.raw'] && $this->app['config']['session.driver'] == 'raw')
 		{
 			Session::extend('raw', function($app) use ($namespace)
 			{

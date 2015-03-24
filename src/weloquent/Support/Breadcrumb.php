@@ -79,9 +79,9 @@ class Breadcrumb
 	public function get()
 	{
 
-		dump($this->getPostType());
-		dump($this->getTax());
-		dump($this->getTerm());
+//		dump($this->getPostType());
+//		dump($this->getTax());
+//		dump($this->getTerm());
 		$b = [];
 
 		if (!is_front_page())

@@ -20,26 +20,7 @@ class Router extends \Illuminate\Routing\Router{
 	{
 		$this->currentRequest = $request;
 
-		// If no response was returned from the before filter, we will call the proper
-		// route instance to get the response. If no route is found a response will
-		// still get returned based on why no routes were found for this request.
-		$response = $this->callFilter('before', $request);
-
-		/**
-		 * Just ignoring the router dispatch lookinf for a router
-		 * This is donne by WordPress
-		 */
-		//		if (is_null($response))
-		//		{
-		//			$response = $this->dispatchToRoute($request);
-		//		}
-
-		$response = $this->prepareResponse($request, $response);
-
-		// Once this route has run and the response has been prepared, we will run the
-		// after filter to do any last work on the response or for this application
-		// before we will return the response back to the consuming code for use.
-		$this->callFilter('after', $request, $response);
+		$response = $this->prepareResponse($request, $request);
 
 		return $response;
 	}
