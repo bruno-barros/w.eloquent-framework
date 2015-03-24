@@ -28,7 +28,7 @@ class GlobalJsTest extends TestCase{
 	 */
 	public function it_should_be_instantiable()
 	{
-		assertInstanceOf('Weloquent\Core\Globaljs\GlobalJs', new GlobalJs(new Application()));
+		$this->assertInstanceOf('Weloquent\Core\Globaljs\GlobalJs', new GlobalJs(new Application()));
 	}
 
 	/**
@@ -40,9 +40,9 @@ class GlobalJsTest extends TestCase{
 		$gjs->add('foo', 'bar');
 		$data = $gjs->getData();
 
-		assertInternalType('array', $data);
-		assertEquals(1, count($data));
-		assertEquals('bar', $data['foo']);
+		$this->assertInternalType('array', $data);
+		$this->assertEquals(1, count($data));
+		$this->assertEquals('bar', $data['foo']);
 	}
 
 
@@ -56,9 +56,9 @@ class GlobalJsTest extends TestCase{
 		$gjs->add('foo.bazin', new \stdClass());
 		$data = $gjs->getData();
 
-		assertEquals(1, count($data));
-		assertEquals('bar', $data['foo']['baz']);
-		assertInternalType('object', $data['foo']['bazin']);
+		$this->assertEquals(1, count($data));
+		$this->assertEquals('bar', $data['foo']['baz']);
+		$this->assertInternalType('object', $data['foo']['bazin']);
 	}
 
 	/**
@@ -74,8 +74,8 @@ class GlobalJsTest extends TestCase{
 
 		$data = $gjs->getData();
 
-		assertEquals(1, count($data));
-		assertEquals('bar', $data['foo']['baz']);
+		$this->assertEquals(1, count($data));
+		$this->assertEquals('bar', $data['foo']['baz']);
 	}
 
 	/**
@@ -91,8 +91,8 @@ class GlobalJsTest extends TestCase{
 
 		$data = $gjs->getData();
 
-		assertEquals(1, count($data));
-		assertEquals('gle', $data['sin']);
+		$this->assertEquals(1, count($data));
+		$this->assertEquals('gle', $data['sin']);
 	}
 
 	/**
@@ -111,11 +111,11 @@ class GlobalJsTest extends TestCase{
 		$data = $gjs->getData();
 
 
-		assertEquals(1, count($data));
-		assertInternalType('array', $data['root']);
-		assertInternalType('array', $data['root']['child']);
-		assertEquals('val3', $data['root']['son']);
-		assertEquals('val4', $data['root']['child']['grandchild']);
+		$this->assertEquals(1, count($data));
+		$this->assertInternalType('array', $data['root']);
+		$this->assertInternalType('array', $data['root']['child']);
+		$this->assertEquals('val3', $data['root']['son']);
+		$this->assertEquals('val4', $data['root']['child']['grandchild']);
 	}
 
 

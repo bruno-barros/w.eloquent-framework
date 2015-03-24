@@ -38,7 +38,7 @@ class AjaxTest extends TestCase
 	 */
 	public function it_should_instantiable()
 	{
-		assertInstanceOf('Weloquent\Core\Http\Ajax', new Ajax(new Application()));
+		$this->assertInstanceOf('Weloquent\Core\Http\Ajax', new Ajax(new Application()));
 	}
 
 	/**

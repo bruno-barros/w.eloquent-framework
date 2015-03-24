@@ -28,7 +28,7 @@ class WpExceptionTest extends TestCase
 	{
 		$wpe = new WpException("exception message", 999);
 
-		assertInternalType('object', $wpe);
+		$this->assertInternalType('object', $wpe);
 	}
 
 	/**
@@ -38,8 +38,8 @@ class WpExceptionTest extends TestCase
 	{
 		$wpe = new WpException("exception message", 999);
 
-		assertEquals('exception message', $wpe->getMessage());
-		assertEquals(999, $wpe->getCode());
+		$this->assertEquals('exception message', $wpe->getMessage());
+		$this->assertEquals(999, $wpe->getCode());
 	}
 
 	/**
@@ -49,10 +49,10 @@ class WpExceptionTest extends TestCase
 	{
 		$wpe = new WpException($this->wpError, 222);
 
-		assertEquals('Wp message foo', $wpe->getMessage());
-		assertEquals(222, $wpe->getCode());
-		assertEquals('wp_code_foo', $wpe->getWpCode());
-		assertEquals([1, 2, 3], $wpe->getData());
+		$this->assertEquals('Wp message foo', $wpe->getMessage());
+		$this->assertEquals(222, $wpe->getCode());
+		$this->assertEquals('wp_code_foo', $wpe->getWpCode());
+		$this->assertEquals([1, 2, 3], $wpe->getData());
 	}
 
 
@@ -64,13 +64,13 @@ class WpExceptionTest extends TestCase
 		$error = new \WP_Error('wp_code_foo', '<strong>ERROR</strong>: Wp message foo <a href="#">link</a>');
 		$wpe = new WpException($error);
 
-		assertEquals('Wp message foo <a href="#">link</a>', $wpe->getMessage());
+		$this->assertEquals('Wp message foo <a href="#">link</a>', $wpe->getMessage());
 
 
 		$error2 = new \WP_Error('wp_code_foo', '<strong>ALERT</strong>: <strong>Message</strong> <a href="#">link</a>');
 		$wpe2 = new WpException($error2);
 
-		assertEquals('<strong>Message</strong> <a href="#">link</a>', $wpe2->getMessage());
+		$this->assertEquals('<strong>Message</strong> <a href="#">link</a>', $wpe2->getMessage());
 
 	}
 

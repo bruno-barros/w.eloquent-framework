@@ -31,7 +31,7 @@ class PostPresenterTest extends TestCase
 	{
 		$presenter = new PostPresenter($this->fakePost(), false);
 
-		assertInstanceOf('Weloquent\Presenters\Contracts\PresenterInterface', $presenter);
+		$this->assertInstanceOf('Weloquent\Presenters\Contracts\PresenterInterface', $presenter);
 	}
 
 	/**
@@ -41,8 +41,8 @@ class PostPresenterTest extends TestCase
 	{
 		$presenter = new PostPresenter($this->fakePost(), false);
 
-		assertEquals($presenter->ID, 1);
-		assertEquals($presenter->post_title, 'Foo Bar');
+		$this->assertEquals($presenter->ID, 1);
+		$this->assertEquals($presenter->post_title, 'Foo Bar');
 	}
 
 	/**
@@ -52,7 +52,7 @@ class PostPresenterTest extends TestCase
 	{
 		$presenter = new PostPresenter($this->fakePost(), false);
 
-		assertEquals('foo-bar', $presenter->slug);
+		$this->assertEquals('foo-bar', $presenter->slug);
 	}
 
 	/**
@@ -64,7 +64,7 @@ class PostPresenterTest extends TestCase
 
 		$authorPresenter = $presenter->author();
 
-		assertInstanceOf('Weloquent\Presenters\AuthorPresenter', $authorPresenter);
+		$this->assertInstanceOf('Weloquent\Presenters\AuthorPresenter', $authorPresenter);
 	}
 
 	/**
@@ -74,7 +74,7 @@ class PostPresenterTest extends TestCase
 	{
 		$presenter = new PostPresenter($this->fakePost(), false);
 
-		assertEquals(2, $presenter->author()->ID);
+		$this->assertEquals(2, $presenter->author()->ID);
 	}
 
 }

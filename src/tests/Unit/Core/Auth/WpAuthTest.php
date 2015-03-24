@@ -31,7 +31,7 @@ class WpAuthTest extends TestCase
 	 */
 	public function it_should_implement_UserInterface()
 	{
-		assertInstanceOf('Illuminate\Auth\UserProviderInterface', $this->wpAuth);
+		$this->assertInstanceOf('Illuminate\Auth\UserProviderInterface', $this->wpAuth);
 	}
 
 	/**
@@ -44,7 +44,7 @@ class WpAuthTest extends TestCase
 			'return' => true,
 		));
 
-		assertTrue($this->wpAuth->check());
+		$this->assertTrue($this->wpAuth->check());
 	}
 
 
@@ -58,7 +58,7 @@ class WpAuthTest extends TestCase
 			'return' => false,
 		));
 
-		assertFalse($this->wpAuth->check());
+		$this->assertFalse($this->wpAuth->check());
 	}
 
 
@@ -72,7 +72,7 @@ class WpAuthTest extends TestCase
 			'return' => true,
 		));
 
-		assertFalse($this->wpAuth->guest());
+		$this->assertFalse($this->wpAuth->guest());
 	}
 
 	/**
@@ -85,7 +85,7 @@ class WpAuthTest extends TestCase
 			'return' => false,
 		));
 
-		assertTrue($this->wpAuth->guest());
+		$this->assertTrue($this->wpAuth->guest());
 	}
 
 	/**
@@ -99,8 +99,8 @@ class WpAuthTest extends TestCase
 			'return' => new \WP_User(),
 		));
 
-		assertInstanceOf('WP_User', $this->wpAuth->user());
-		assertInstanceOf('WP_User', $this->wpAuth->user());
+		$this->assertInstanceOf('WP_User', $this->wpAuth->user());
+		$this->assertInstanceOf('WP_User', $this->wpAuth->user());
 	}
 
 
@@ -115,7 +115,7 @@ class WpAuthTest extends TestCase
 			'return' => null,
 		));
 
-		assertNull($this->wpAuth->user());
+		$this->assertNull($this->wpAuth->user());
 	}
 
 	/**
@@ -129,8 +129,8 @@ class WpAuthTest extends TestCase
 			'return' => new \WP_User(),
 		));
 
-		assertEquals(1, $this->wpAuth->id());
-		assertEquals(1, $this->wpAuth->id());
+		$this->assertEquals(1, $this->wpAuth->id());
+		$this->assertEquals(1, $this->wpAuth->id());
 	}
 
 
@@ -154,7 +154,7 @@ class WpAuthTest extends TestCase
 			'user_password' => 'bar',
 		]);
 
-		assertFalse($isValid);
+		$this->assertFalse($isValid);
 	}
 
 	/**
@@ -177,7 +177,7 @@ class WpAuthTest extends TestCase
 			'user_password' => 'bar',
 		]);
 
-		assertTrue($isValid);
+		$this->assertTrue($isValid);
 	}
 
 	/**
@@ -207,7 +207,7 @@ class WpAuthTest extends TestCase
 			'user_password' => 'bar',
 		], true, false);
 
-		assertTrue($isValid);
+		$this->assertTrue($isValid);
 
 		// now login will fail
 		\WP_Mock::wpFunction('wp_authenticate_username_password', [
@@ -220,7 +220,7 @@ class WpAuthTest extends TestCase
 			'user_password' => 'bar',
 		], true, false);
 
-		assertFalse($isValid);
+		$this->assertFalse($isValid);
 	}
 
 	/**
@@ -244,7 +244,7 @@ class WpAuthTest extends TestCase
 			'user_password' => 'bar',
 		]);
 
-		assertTrue($isValid);
+		$this->assertTrue($isValid);
 	}
 
 
@@ -269,7 +269,7 @@ class WpAuthTest extends TestCase
 			'user_password' => 'wrong',
 		]);
 
-		assertFalse($isValid);
+		$this->assertFalse($isValid);
 	}
 
 	/**
@@ -315,7 +315,7 @@ class WpAuthTest extends TestCase
 			'user_password' => 'wrong',
 		]);
 
-		assertTrue($isValid);
+		$this->assertTrue($isValid);
 
 	}
 
@@ -335,7 +335,7 @@ class WpAuthTest extends TestCase
 		$wpAuth = new WpAuth($app);
 		$wpAuth->setUser(new \WP_User());
 
-		assertFalse($wpAuth->can('delete_user'));
+		$this->assertFalse($wpAuth->can('delete_user'));
 
 	}
 
@@ -355,7 +355,7 @@ class WpAuthTest extends TestCase
 		$wpAuth = new WpAuth($app);
 		$wpAuth->setUser(new \WP_User());
 
-		assertFalse($wpAuth->can(['delete_user', 'do_something_else', 'once_more']));
+		$this->assertFalse($wpAuth->can(['delete_user', 'do_something_else', 'once_more']));
 	}
 
 
@@ -375,7 +375,7 @@ class WpAuthTest extends TestCase
 		$wpAuth = new WpAuth($app);
 		$wpAuth->setUser(new \WP_User());
 
-		assertTrue($wpAuth->can('delete_user'));
+		$this->assertTrue($wpAuth->can('delete_user'));
 
 	}
 
@@ -396,7 +396,7 @@ class WpAuthTest extends TestCase
 		$wpAuth = new WpAuth($app);
 		$wpAuth->setUser(new \WP_User());
 
-		assertTrue($wpAuth->can(['delete_user', 'do_something_else', 'once_more']));
+		$this->assertTrue($wpAuth->can(['delete_user', 'do_something_else', 'once_more']));
 	}
 
 	/**
@@ -410,8 +410,8 @@ class WpAuthTest extends TestCase
 		$wpAuth = new WpAuth($app);
 		$wpAuth->setUser(new \WP_User());
 
-		assertTrue($wpAuth->is('administrator'));
-		assertTrue($wpAuth->is('Administrator'));
+		$this->assertTrue($wpAuth->is('administrator'));
+		$this->assertTrue($wpAuth->is('Administrator'));
 	}
 
 	/**
@@ -425,7 +425,7 @@ class WpAuthTest extends TestCase
 		$wpAuth = new WpAuth($app);
 		$wpAuth->setUser(new \WP_User());
 
-		assertFalse($wpAuth->is(['editor', 'subscriber']));
+		$this->assertFalse($wpAuth->is(['editor', 'subscriber']));
 	}
 
 
@@ -441,16 +441,16 @@ class WpAuthTest extends TestCase
 		$wpAuth = new WpAuth($app);
 		$wpAuth->setUser(new \WP_User());// level 10
 
-		assertFalse($wpAuth->level(11));
-		assertTrue($wpAuth->level(10));
-		assertTrue($wpAuth->level(9));
-		assertTrue($wpAuth->level(5));
-		assertTrue($wpAuth->level(1));
-		assertFalse($wpAuth->level(1, '='));
-		assertFalse($wpAuth->level(5, '<'));
-		assertFalse($wpAuth->level(5, '<='));
-		assertTrue($wpAuth->level(5, '>'));
-		assertTrue($wpAuth->level(5, '>='));
+		$this->assertFalse($wpAuth->level(11));
+		$this->assertTrue($wpAuth->level(10));
+		$this->assertTrue($wpAuth->level(9));
+		$this->assertTrue($wpAuth->level(5));
+		$this->assertTrue($wpAuth->level(1));
+		$this->assertFalse($wpAuth->level(1, '='));
+		$this->assertFalse($wpAuth->level(5, '<'));
+		$this->assertFalse($wpAuth->level(5, '<='));
+		$this->assertTrue($wpAuth->level(5, '>'));
+		$this->assertTrue($wpAuth->level(5, '>='));
 	}
 
 }

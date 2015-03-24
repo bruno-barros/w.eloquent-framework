@@ -18,7 +18,8 @@ class EnvironmentTest extends TestCase{
 	{
 		$env = new Environment('/some/path');
 
-		assertInstanceOf('Weloquent\Config\Environment', $env);
+		$this->assertInstanceOf('Weloquent\Config\Environment', $env);
+
 	}
 
 	/**
@@ -28,16 +29,16 @@ class EnvironmentTest extends TestCase{
 	{
 
 		$env1 = new Environment('/some/path');
-		assertEquals('/some/path'.DS, $env1->getPath());
+		$this->assertEquals('/some/path'.DS, $env1->getPath());
 
 		$env2 = new Environment('/some/path/');
-		assertEquals('/some/path'.DS, $env2->getPath());
+		$this->assertEquals('/some/path'.DS, $env2->getPath());
 
 		$env3 = new Environment('some/path');
-		assertEquals('some/path'.DS, $env3->getPath());
+		$this->assertEquals('some/path'.DS, $env3->getPath());
 
 		$env4 = new Environment('\some\path\\');
-		assertEquals('\some\path'.DS, $env4->getPath());
+		$this->assertEquals('\some\path'.DS, $env4->getPath());
 
 	}
 

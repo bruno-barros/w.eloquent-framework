@@ -24,7 +24,7 @@ class RedirectorTest extends TestCase
 	public function it_should_be_instantiable()
 	{
 		$urlGenerator = \Mockery::mock('\Illuminate\Routing\UrlGenerator');
-		assertInstanceOf('Weloquent\Core\Http\Redirector', new Redirector($urlGenerator));
+		$this->assertInstanceOf('Weloquent\Core\Http\Redirector', new Redirector($urlGenerator));
 	}
 
 }
