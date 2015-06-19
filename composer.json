@@ -33,10 +33,6 @@
     "laravel/framework": "4.2.*",
     "brain/brain": "dev-master",
     "brain/support": "dev-master",
-    "brain/amygdala": "dev-master",
-    "brain/striatum": "dev-master",
-    "brain/occipital": "dev-master",
-    "brain/cortex": "dev-master",
     "symfony/routing": "2.*",
     "symfony/var-dumper": "2.6.*"
   },
