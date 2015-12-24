@@ -100,7 +100,7 @@ class Breadcrumb
 				}
 
 			}
-			else if (is_post_type_archive() && !is_tax())
+			else if (is_post_type_archive() && !is_tax() && $this->post)
 			{
 				$postType = $this->post->postType;
 				if (!in_array($postType->name, $this->excludedPostTypes))
