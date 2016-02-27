@@ -31,8 +31,6 @@
     "php": ">=5.4",
     "composer/installers": "~1.0",
     "laravel/framework": "4.2.*",
-    "brain/brain": "~0.1.0",
-    "brain/support": "~0.1.0",
     "symfony/routing": "2.*",
     "symfony/var-dumper": "2.6.*"
   },
