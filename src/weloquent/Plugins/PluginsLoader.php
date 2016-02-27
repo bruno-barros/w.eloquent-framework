@@ -35,6 +35,7 @@ class PluginsLoader
 
 		'blade' => 'Blade/blade.php',
 
+		// deprecated
 		'brain' => 'BrainPlugins/brain-plugins.php',
 
 	];
