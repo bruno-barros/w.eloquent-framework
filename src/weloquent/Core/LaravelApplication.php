@@ -15,14 +15,14 @@ if (!defined('WPINC'))
 | bail from here. Otherwise, Composer will crazily fall back code.
 |
 */
-
+/*
 if ( ! extension_loaded('mcrypt'))
 {
 	echo 'Mcrypt PHP extension required.'.PHP_EOL;
 
 	exit(1);
 }
-
+*/
 
 /*
 |--------------------------------------------------------------------------
@@ -34,9 +34,9 @@ if ( ! extension_loaded('mcrypt'))
 | are not available by default in PHP. We'll setup this stuff here.
 |
 */
-
+/*
 Patchwork\Utf8\Bootup::initMbstring();
-
+*/
 /*
 |--------------------------------------------------------------------------
 | Create The Application
